@@ -1,0 +1,92 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getSongs } from '../../lib/data';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const songs = getSongs();
+  return songs.map(song => ({ params: { slug: song.id } }));
+};
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/music');
+
+const songs = getSongs();
+const song = songs.find(s => s.id === slug);
+
+if (!song) return Astro.redirect('/music');
+---
+
+<Layout title={`${song.title} · 幻觉`}>
+  <div class="max-w-2xl mx-auto px-6 py-12">
+    <div class="mb-8 text-sm text-muted">
+      <a href="/music" class="hover:text-ink transition-colors">← 返回音乐列表</a>
+    </div>
+
+    <h1 class="text-3xl font-bold mb-2">{song.title}</h1>
+    <p class="text-sm text-muted mb-8">
+      创作时间：{song.createdAt ? new Date(song.createdAt).toLocaleDateString('zh-CN') : '未知'}
+      {song.musicPrompt?.vocal_style ? ` · 人声: ${song.musicPrompt.vocal_style}` : ''}
+    </p>
+
+    <!-- 音频播放器 -->
+    {
+      song.audioFile && (
+        <div class="mb-10 p-4 bg-paper-dark/50 rounded-lg">
+          <audio controls class="w-full" preload="metadata">
+            <source src={`/${song.audioFile}`} type="audio/mpeg" />
+          </audio>
+        </div>
+      )
+    }
+
+    <!-- 创作背景 -->
+    {
+      song.background && (
+        <section class="mb-10">
+          <h2 class="text-lg font-bold mb-3">创作背景</h2>
+          <div class="text-muted text-sm leading-relaxed whitespace-pre-line">
+            {song.background}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- 歌词 -->
+    <section>
+      <h2 class="text-lg font-bold mb-4">歌词</h2>
+      <div class="space-y-4">
+        {
+          song.lyrics.split('\n').map(line => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('#')) {
+              return <h3 class="text-sm font-bold text-muted mt-6">{trimmed.replace(/^#+ /, '')}</h3>;
+            }
+            if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+              return <p class="text-xs font-medium text-accent mt-4 mb-1">{trimmed}</p>;
+            }
+            if (!trimmed) return <br />;
+            return <p class="leading-relaxed">{trimmed}</p>;
+          })
+        }
+      </div>
+    </section>
+
+    <!-- 音乐 Prompt 详情 -->
+    <section class="mt-10 pt-8 border-t border-paper-dark">
+      <h2 class="text-lg font-bold mb-3">音乐参数</h2>
+      <dl class="grid grid-cols-2 gap-2 text-sm">
+        <dt class="text-muted">风格</dt>
+        <dd>{song.musicPrompt?.caption_en || '-'}</dd>
+        <dt class="text-muted">情绪</dt>
+        <dd>{Array.isArray(song.musicPrompt?.mood) ? song.musicPrompt.mood.join(', ') : song.musicPrompt?.mood || '-'}</dd>
+        <dt class="text-muted">乐器</dt>
+        <dd>{Array.isArray(song.musicPrompt?.instruments) ? song.musicPrompt.instruments.join(', ') : song.musicPrompt?.instruments || '-'}</dd>
+        <dt class="text-muted">时长</dt>
+        <dd>{song.musicPrompt?.duration ? `${Math.floor(song.musicPrompt.duration / 60)}:${String(song.musicPrompt.duration % 60).padStart(2, '0')}` : '-'}</dd>
+        <dt class="text-muted">拍号</dt>
+        <dd>{song.musicPrompt?.time_signature || '-'}</dd>
+      </dl>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,254 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ---- 家族树 D3 渲染色板 ---- */
+    --ft-node-male-bg: #f0f4ff;
+    --ft-node-male-stroke: #93b5f5;
+    --ft-node-male-gender: #4a7ad4;
+    --ft-node-female-bg: #fff0f5;
+    --ft-node-female-stroke: #f0a0b0;
+    --ft-node-female-gender: #d47a9a;
+    --ft-node-text: #1a1a2e;
+    --ft-node-subtext: #7a7a8a;
+    --ft-link-color: #d4cfc4;
+    --ft-link-width: 1.5px;
+    --ft-spouse-bg: #fdf6ee;
+    --ft-spouse-stroke: #e8d5b0;
+    --ft-spouse-text: #8b7355;
+    --ft-expand-bg: #faf8f5;
+    --ft-expand-stroke: #c9a96e;
+    --ft-expand-text: #c9a96e;
+    --ft-node-hover-glow: #c9a96e;
+    --ft-node-highlight-glow: #e0a030;
+    --ft-axis-bg: rgba(250, 248, 245, 0.95);
+    --ft-axis-border: rgba(201, 169, 110, 0.3);
+  }
+
+  body {
+    @apply bg-paper text-ink antialiased;
+    font-family: "Noto Serif SC", "Source Han Serif CN", Georgia, serif;
+  }
+
+  nav, button, .ui-text {
+    font-family: "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Noto Serif SC", "Source Han Serif CN", Georgia, serif;
+  }
+}
+
+/* ---- 家族树 D3 渲染样式 ---- */
+@layer components {
+  /* 连线 */
+  .ft-link {
+    fill: none;
+    stroke: var(--ft-link-color);
+    stroke-width: var(--ft-link-width);
+    stroke-linecap: round;
+    transition: stroke 0.3s;
+  }
+
+  /* 节点圆 */
+  .ft-node circle {
+    fill: var(--ft-node-text);
+    stroke: #fff;
+    stroke-width: 2px;
+    transition: all 0.3s;
+  }
+
+  /* 折叠状态 */
+  .ft-node circle.collapsed {
+    fill: #fff;
+    stroke: var(--ft-expand-stroke);
+    stroke-width: 3px;
+  }
+
+  /* Hover 放大 + 金色 */
+  .ft-node:hover circle {
+    r: 8 !important;
+    fill: var(--ft-node-hover-glow);
+  }
+
+  /* 搜索高亮 */
+  .ft-node.highlighted circle {
+    r: 12 !important;
+    fill: var(--ft-node-highlight-glow);
+    stroke: #fff;
+    stroke-width: 4px;
+    filter: drop-shadow(0 0 8px rgba(224, 160, 48, 0.8));
+  }
+
+  /* 节点文字 — 白色描边增强可读性（核心技巧） */
+  .ft-node text.ft-node-name {
+    fill: var(--ft-node-text);
+    font-family: "Noto Serif SC", serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-anchor: middle;
+    paint-order: stroke fill;
+    stroke: #faf8f5;
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all 0.3s;
+  }
+
+  .ft-node text.ft-node-dates {
+    fill: var(--ft-node-subtext);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 10px;
+    text-anchor: middle;
+    paint-order: stroke fill;
+    stroke: #faf8f5;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ft-node text.ft-node-gender {
+    font-size: 10px;
+    text-anchor: middle;
+  }
+
+  .ft-node.highlighted text.ft-node-name {
+    font-weight: 700;
+    font-size: 16px;
+    fill: var(--ft-node-highlight-glow);
+  }
+
+  /* 节点背景 rect */
+  .ft-node rect.ft-node-bg {
+    rx: 6;
+    stroke-width: 1.5;
+  }
+
+  .ft-node rect.ft-node-bg.male {
+    fill: var(--ft-node-male-bg);
+    stroke: var(--ft-node-male-stroke);
+  }
+
+  .ft-node rect.ft-node-bg.female {
+    fill: var(--ft-node-female-bg);
+    stroke: var(--ft-node-female-stroke);
+  }
+
+  .ft-node:hover rect.ft-node-bg {
+    filter: brightness(0.95);
+    stroke-width: 2px;
+  }
+
+  /* 展开/折叠按钮 */
+  .ft-toggle circle {
+    fill: var(--ft-expand-bg);
+    stroke: var(--ft-expand-stroke);
+    stroke-width: 1.5;
+    cursor: pointer;
+  }
+
+  .ft-toggle text {
+    fill: var(--ft-expand-text);
+    font-size: 10px;
+    font-weight: bold;
+    text-anchor: middle;
+    cursor: pointer;
+  }
+
+  /* 配偶标签 */
+  .ft-spouse rect {
+    fill: var(--ft-spouse-bg);
+    stroke: var(--ft-spouse-stroke);
+    stroke-width: 1;
+    rx: 4;
+  }
+
+  .ft-spouse text {
+    fill: var(--ft-spouse-text);
+    font-size: 10px;
+    font-family: "Noto Sans SC", sans-serif;
+    text-anchor: middle;
+  }
+
+  .ft-spouse text.clickable {
+    fill: var(--ft-expand-text);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* ---- 时间轴（内嵌于 SVG zoom group）---- */
+  .ft-minor-tick {
+    pointer-events: none;
+  }
+
+  /* ---- 缩放控件 ---- */
+  #ft-zoom-controls {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+
+  #ft-zoom-controls:hover {
+    opacity: 1;
+  }
+
+  .ft-zoom-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ft-link-color);
+    border-radius: 4px;
+    background: var(--ft-expand-bg);
+    color: var(--ft-node-subtext);
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+
+  .ft-zoom-btn:hover {
+    border-color: var(--ft-expand-stroke);
+    color: var(--ft-expand-stroke);
+    background: #fff;
+  }
+
+  /* ---- 移动端适配 ---- */
+  @media (max-width: 768px) {
+    .ft-node text.ft-node-name {
+      font-size: 11px;
+    }
+
+    .ft-node text.ft-node-dates {
+      font-size: 8px;
+    }
+
+    #ft-zoom-controls {
+      top: 4px;
+      right: 6px;
+    }
+
+    .ft-zoom-btn {
+      width: 24px;
+      height: 24px;
+      font-size: 12px;
+    }
+  }
+
+  /* ---- 减少动画偏好 ---- */
+  @media (prefers-reduced-motion: reduce) {
+    #ft-tree-svg * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

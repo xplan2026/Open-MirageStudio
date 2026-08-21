@@ -1,0 +1,15 @@
+{
+  "name": "ambassador-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Mirage-Studio 宣传大使 — 对外 A2A Agent（自媒体平台宣传 + AI 社区宣传）",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  }
+}

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>盘龙岗 - 可拖拽编辑地图</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background: #1a1a2e; color: #eee; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        
+        .toolbar {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+            padding: 12px 16px; background: #16213e; border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .toolbar h1 { margin: 0; font-size: 20px; color: #e94560; white-space: nowrap; }
+        .toolbar .meta { color: #888; font-size: 13px; }
+        .toolbar .spacer { flex: 1; }
+        
+        .btn {
+            padding: 8px 18px; border: none; border-radius: 6px; cursor: pointer;
+            font-size: 14px; font-weight: 600; transition: all 0.2s;
+        }
+        .btn-edit {
+            background: #0f3460; color: #e94560; border: 2px solid #e94560;
+        }
+        .btn-edit.active {
+            background: #e94560; color: #fff;
+        }
+        .btn-save {
+            background: #00b894; color: #fff;
+        }
+        .btn-save:hover { background: #00a381; }
+        .btn-save:disabled {
+            background: #555; cursor: not-allowed;
+        }
+        .btn-reset {
+            background: #636e72; color: #fff;
+        }
+        
+        #map-container {
+            position: relative; background: #fff; border-radius: 8px;
+            overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        #map-container.editing {
+            box-shadow: 0 0 0 3px #e94560, 0 4px 20px rgba(233,69,96,0.3);
+        }
+        #map-container svg { display: block; }
+        
+        .drag-handle {
+            position: absolute; width: 20px; height: 20px;
+            border-radius: 50%; cursor: grab;
+            border: 3px solid #e94560; background: rgba(233,69,96,0.3);
+            transform: translate(-50%, -50%);
+            z-index: 10; display: none; pointer-events: none;
+        }
+        .editing .drag-handle {
+            display: block; pointer-events: auto;
+        }
+        .drag-handle:hover { background: rgba(233,69,96,0.7); }
+        .drag-handle.dragging {
+            cursor: grabbing; background: #e94560; border-color: #fff;
+            box-shadow: 0 0 12px rgba(233,69,96,0.6);
+        }
+        .drag-handle .label {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            white-space: nowrap; font-size: 11px; font-weight: 700;
+            color: #1a1a2e; background: #e94560; padding: 2px 8px;
+            border-radius: 4px; pointer-events: none;
+        }
+        .drag-handle .coord {
+            position: absolute; left: 14px; top: 18px;
+            white-space: nowrap; font-size: 10px;
+            color: #888; pointer-events: none;
+        }
+        
+        #info {
+            margin-top: 16px; padding: 16px; background: #16213e;
+            border-radius: 8px; min-height: 60px;
+        }
+        #info h3 { margin: 0 0 8px 0; color: #e94560; }
+        #info p { margin: 4px 0; color: #ccc; font-size: 14px; }
+        
+        .legend { margin-top: 12px; display: flex; gap: 16px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #aaa; }
+        .legend-color { width: 12px; height: 12px; border-radius: 50%; }
+        
+        .toast {
+            position: fixed; top: 20px; right: 20px; padding: 12px 20px;
+            border-radius: 8px; color: #fff; font-weight: 600; z-index: 999;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .toast.success { background: #00b894; }
+        .toast.error { background: #d63031; }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .tip {
+            margin-top: 8px; padding: 8px 12px; background: #0f3460;
+            border-radius: 6px; font-size: 12px; color: #8892b0;
+            display: none;
+        }
+        .editing-tip { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="toolbar">
+            <h1>盘龙岗</h1>
+            <span class="meta">城市 级地图</span>
+            <span class="spacer"></span>
+            <button class="btn btn-edit" id="btn-edit" onclick="toggleEdit()">✋ 编辑模式</button>
+            <button class="btn btn-save" id="btn-save" onclick="savePositions()" disabled>💾 保存坐标</button>
+            <button class="btn btn-reset" id="btn-reset" onclick="resetPositions()" disabled>↺ 重置</button>
+        </div>
+        
+        <div id="map-container">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="800" viewBox="0 0 1000 800">
+<rect width="1000" height="800" fill="#f8f9fa"/>
+<line x1="280" y1="288" x2="680" y2="288" stroke="#e67e22" stroke-width="4" stroke-dasharray="" opacity="1.0"/>
+<text x="470" y="256" font-family="sans-serif" font-size="12" fill="#e67e22" text-anchor="middle" font-weight="600">主公路</text>
+<rect x="550" y="320" width="230" height="384" fill="rgba(52, 152, 219, 0.12)" stroke="#2980b9" stroke-width="2" opacity="1.0"/>
+<text x="660" y="512" font-family="sans-serif" font-size="11" fill="#2980b9" text-anchor="middle" font-weight="600">厂区（顺山势而下）</text>
+<rect x="140" y="304" width="200" height="64" fill="rgba(231, 76, 60, 0.10)" stroke="#c0392b" stroke-width="2" opacity="1.0"/>
+<text x="240" y="288" font-family="sans-serif" font-size="11" fill="#c0392b" text-anchor="middle" font-weight="600">家属区（11排）</text>
+<rect x="0" y="720" width="1000" height="72" fill="rgba(52, 152, 219, 0.20)" stroke="#2980b9" stroke-width="1" opacity="0.8"/>
+<text x="500" y="752" font-family="sans-serif" font-size="13" fill="#2980b9" text-anchor="middle" font-weight="600">嘉陵江</text>
+<line x1="240" y1="320" x2="270" y2="192" stroke="#27ae60" stroke-width="2" stroke-dasharray="5,3" opacity="1.0"/>
+<text x="210" y="256" font-family="sans-serif" font-size="10" fill="#27ae60" text-anchor="middle" font-weight="600">石阶</text>
+<rect x="220" y="160" width="100" height="56" fill="rgba(46, 204, 113, 0.12)" stroke="#27ae60" stroke-width="2" opacity="1.0"/>
+<text x="270" y="152" font-family="sans-serif" font-size="11" fill="#27ae60" text-anchor="middle" font-weight="600">子弟小学</text>
+<rect x="100" y="40" width="320" height="200" fill="rgba(46, 204, 113, 0.06)" stroke="#1abc9c" stroke-width="1.5" opacity="0.6"/>
+<text x="260" y="32" font-family="sans-serif" font-size="12" fill="#1abc9c" text-anchor="middle" font-weight="600">盘龙岗山上区</text>
+<line x1="620" y1="320" x2="620" y2="704" stroke="#95a5a6" stroke-width="2" stroke-dasharray="5,3" opacity="1.0"/>
+<text x="580" y="512" font-family="sans-serif" font-size="10" fill="#7f8c8d" text-anchor="middle" font-weight="600">厂区大路</text>
+<line x1="646" y1="478" x2="650" y2="736" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="648" y="603" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约8分钟</text>
+<line x1="646" y1="478" x2="267" y2="448" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="456" y="459" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约6分钟</text>
+<line x1="646" y1="478" x2="684" y2="390" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="665" y="430" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约1分钟</text>
+<line x1="267" y1="448" x2="312" y2="377" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="289" y="408" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行上山 约3分钟</text>
+<line x1="646" y1="478" x2="543" y2="442" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="594" y="456" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约1分钟</text>
+<line x1="267" y1="448" x2="147" y2="194" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="207" y="317" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行上山 约15分钟</text>
+<text x="20" y="30" font-family="sans-serif" font-size="18" font-weight="bold" fill="#333">盘龙岗 (城市)</text>
+<circle cx="646" cy="478" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="646" y="505" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">厂门口</text>
+<text x="646" y="482" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="643" cy="444" r="18" fill="#f5a623" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="643" y="477" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">主公路</text>
+<text x="643" y="448" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L2</text>
+<circle cx="543" cy="442" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="543" y="469" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">10路公交站</text>
+<text x="543" y="446" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="321" cy="491" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="321" y="518" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">邮局</text>
+<text x="321" y="495" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="267" cy="448" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="267" y="475" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">西厂门</text>
+<text x="267" y="452" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="684" cy="390" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="684" y="417" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">食堂</text>
+<text x="684" y="394" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="647" cy="401" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="647" y="428" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">礼堂</text>
+<text x="647" y="405" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="542" cy="386" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="542" y="413" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">篮球场</text>
+<text x="542" y="390" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="477" cy="397" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="477" y="424" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">医院</text>
+<text x="477" y="401" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="397" cy="404" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="397" y="431" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">糖果店</text>
+<text x="397" y="408" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="209" cy="92" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="209" y="119" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">家属楼11排</text>
+<text x="209" y="96" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="359" cy="214" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="359" y="241" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">子弟小学</text>
+<text x="359" y="218" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="312" cy="377" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="312" y="404" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">菜市场</text>
+<text x="312" y="381" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="267" cy="400" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="267" y="427" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">造纸一村</text>
+<text x="267" y="404" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="263" cy="200" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="263" y="227" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">老干中心</text>
+<text x="263" y="204" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="162" cy="272" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="162" y="299" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">电大</text>
+<text x="162" y="276" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="187" cy="229" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="187" y="256" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">机械厂足球场</text>
+<text x="187" y="233" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="147" cy="194" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="147" y="221" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">机械厂门口</text>
+<text x="147" y="198" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="194" cy="68" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="194" y="95" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">下山小路</text>
+<text x="194" y="72" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="120" cy="65" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="120" y="92" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">兵工厂</text>
+<text x="120" y="69" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="587" cy="587" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="587" y="614" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">厂区</text>
+<text x="587" y="591" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="650" cy="736" r="18" fill="#f5a623" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="650" y="769" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">嘉陵江边</text>
+<text x="650" y="740" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L2</text>
+<text x="20" y="780" font-family="sans-serif" font-size="12" fill="#999">迷雾区域：造纸二村、民主新村、单身宿舍、子弟中学、技校、化工厂、公共澡堂、李家坡各地点</text>
+<text x="850" y="60" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">图例</text>
+<circle cx="860" cy="81" r="6" fill="#4a90e2"/>
+<text x="875" y="85" font-family="sans-serif" font-size="11" fill="#333">世界</text>
+<circle cx="860" cy="101" r="6" fill="#50c878"/>
+<text x="875" y="105" font-family="sans-serif" font-size="11" fill="#333">区域</text>
+<circle cx="860" cy="121" r="6" fill="#f5a623"/>
+<text x="875" y="125" font-family="sans-serif" font-size="11" fill="#333">城市</text>
+<circle cx="860" cy="141" r="6" fill="#d0021b"/>
+<text x="875" y="145" font-family="sans-serif" font-size="11" fill="#333">场景</text>
+<circle cx="860" cy="161" r="6" fill="#9013fe"/>
+<text x="875" y="165" font-family="sans-serif" font-size="11" fill="#333">细节</text>
+<circle cx="860" cy="181" r="6" fill="#cccccc"/>
+<text x="875" y="185" font-family="sans-serif" font-size="11" fill="#333">迷雾</text>
+</svg>
+        </div>
+        
+        <div class="tip editing-tip" id="edit-tip">
+            💡 <b>拖拽</b>圆圈把手来调整节点位置。调整完成后点击 <b>「保存坐标」</b> 写回 JSON 文件。
+        </div>
+        
+        <div id="info">
+            <h3>地点详情</h3>
+            <p>点击地图上的节点查看详情。点击 <b>「编辑模式」</b> 可拖拽调整位置。</p>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color" style="background:#4a90e2"></div>世界</div>
+            <div class="legend-item"><div class="legend-color" style="background:#50c878"></div>区域</div>
+            <div class="legend-item"><div class="legend-color" style="background:#f5a623"></div>城市</div>
+            <div class="legend-item"><div class="legend-color" style="background:#d0021b"></div>场景</div>
+            <div class="legend-item"><div class="legend-color" style="background:#9013fe"></div>细节</div>
+            <div class="legend-item"><div class="legend-color" style="background:#cccccc"></div>迷雾</div>
+        </div>
+    </div>
+    
+    <script>
+        const MAP_WIDTH = 1000;
+        const MAP_HEIGHT = 800;
+        const SOURCE_JSON = "cities/盘龙岗.json";
+        const nodes = [{"name": "厂门口", "level": "L3", "x": 0.646, "y": 0.5975}, {"name": "主公路", "level": "L2", "x": 0.643, "y": 0.555}, {"name": "10路公交站", "level": "L3", "x": 0.543, "y": 0.5537}, {"name": "邮局", "level": "L3", "x": 0.321, "y": 0.6138}, {"name": "西厂门", "level": "L3", "x": 0.267, "y": 0.56}, {"name": "食堂", "level": "L3", "x": 0.684, "y": 0.4875}, {"name": "礼堂", "level": "L3", "x": 0.647, "y": 0.5025}, {"name": "篮球场", "level": "L3", "x": 0.542, "y": 0.4825}, {"name": "医院", "level": "L3", "x": 0.477, "y": 0.4963}, {"name": "糖果店", "level": "L3", "x": 0.397, "y": 0.505}, {"name": "家属楼11排", "level": "L3", "x": 0.209, "y": 0.115}, {"name": "子弟小学", "level": "L3", "x": 0.359, "y": 0.2687}, {"name": "菜市场", "level": "L3", "x": 0.312, "y": 0.4713}, {"name": "造纸一村", "level": "L3", "x": 0.267, "y": 0.5}, {"name": "老干中心", "level": "L3", "x": 0.263, "y": 0.25}, {"name": "电大", "level": "L3", "x": 0.162, "y": 0.3412}, {"name": "机械厂足球场", "level": "L3", "x": 0.187, "y": 0.2875}, {"name": "机械厂门口", "level": "L3", "x": 0.147, "y": 0.2425}, {"name": "下山小路", "level": "L3", "x": 0.194, "y": 0.085}, {"name": "兵工厂", "level": "L3", "x": 0.12, "y": 0.0813}, {"name": "厂区", "level": "L3", "x": 0.587, "y": 0.7338}, {"name": "嘉陵江边", "level": "L2", "x": 0.65, "y": 0.92}];
+        const originalNodes = JSON.parse(JSON.stringify(nodes));
+        const connections = [{"from": "厂门口", "to": "嘉陵江边", "method": "步行", "time": "约8分钟", "via": "厂区大路"}, {"from": "厂门口", "to": "西厂门", "method": "步行", "time": "约6分钟", "via": "主公路"}, {"from": "厂门口", "to": "食堂", "method": "步行", "time": "约1分钟", "via": "过马路即到"}, {"from": "家属楼4排", "to": "子弟小学", "method": "步行", "time": "约5分钟", "via": "向西→第6-7排间石阶→北上"}, {"from": "西厂门", "to": "菜市场", "method": "步行上山", "time": "约3分钟"}, {"from": "厂门口", "to": "10路公交站", "method": "步行", "time": "约1分钟"}, {"from": "10路公交站", "to": "江城城区", "method": "10路公交", "time": "约30分钟"}, {"from": "西厂门", "to": "机械厂门口", "method": "步行上山", "time": "约15分钟", "via": "菜市场→造纸一村→老干中心→电大→足球场"}];
+        const fogAreas = ["造纸二村", "民主新村", "单身宿舍", "子弟中学", "技校", "化工厂", "公共澡堂", "李家坡各地点"];
+        
+        let isEditing = false;
+        let dragTarget = null;
+        let dragStartX = 0, dragStartY = 0;
+        let nodeStartX = 0, nodeStartY = 0;
+        let handles = {};
+        let hasChanges = false;
+        
+        // ── 初始化：创建拖拽把手 ──
+        function initDragHandles() {
+            const container = document.getElementById('map-container');
+            const svg = container.querySelector('svg');
+            const circles = svg.querySelectorAll('circle');
+            
+            // 只取数据节点（跳过图例的小圆点）
+            circles.forEach(circle => {
+                const r = parseFloat(circle.getAttribute('r'));
+                if (r < 10) return; // 跳过图例小圆
+                
+                const cx = parseFloat(circle.getAttribute('cx'));
+                const cy = parseFloat(circle.getAttribute('cy'));
+                const textEl = circle.nextElementSibling;
+                const name = textEl ? textEl.textContent.trim() : '未知';
+                
+                const handle = document.createElement('div');
+                handle.className = 'drag-handle';
+                handle.style.left = cx + 'px';
+                handle.style.top = cy + 'px';
+                handle.setAttribute('data-name', name);
+                handle.setAttribute('data-x', cx);
+                handle.setAttribute('data-y', cy);
+                
+                handle.innerHTML = '<span class="label">' + name + '</span>' +
+                    '<span class="coord">(' + cx + ', ' + cy + ')</span>';
+                
+                // 鼠标事件
+                handle.addEventListener('mousedown', (e) => startDrag(e, handle));
+                // 触摸事件
+                handle.addEventListener('touchstart', (e) => startDrag(e, handle), {passive: false});
+                
+                container.appendChild(handle);
+                handles[name] = handle;
+            });
+        }
+        
+        // ── 拖拽 ──
+        function startDrag(e, handle) {
+            if (!isEditing) return;
+            e.preventDefault();
+            
+            dragTarget = handle;
+            dragTarget.classList.add('dragging');
+            
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            dragStartX = clientX;
+            dragStartY = clientY;
+            nodeStartX = parseFloat(handle.getAttribute('data-x'));
+            nodeStartY = parseFloat(handle.getAttribute('data-y'));
+            
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchmove', onDrag, {passive: false});
+            document.addEventListener('touchend', endDrag);
+        }
+        
+        function onDrag(e) {
+            if (!dragTarget) return;
+            e.preventDefault();
+            
+            const container = document.getElementById('map-container');
+            const rect = container.getBoundingClientRect();
+            const svgRect = container.querySelector('svg').getBoundingClientRect();
+            
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const dx = clientX - dragStartX;
+            const dy = clientY - dragStartY;
+            
+            let newX = nodeStartX + dx;
+            let newY = nodeStartY + dy;
+            
+            // 限制在地图内
+            newX = Math.max(0, Math.min(svgRect.width, newX));
+            newY = Math.max(0, Math.min(svgRect.height, newY));
+            
+            dragTarget.style.left = newX + 'px';
+            dragTarget.style.top = newY + 'px';
+            dragTarget.setAttribute('data-x', Math.round(newX));
+            dragTarget.setAttribute('data-y', Math.round(newY));
+            
+            // 更新坐标显示
+            const coordSpan = dragTarget.querySelector('.coord');
+            if (coordSpan) {
+                coordSpan.textContent = '(' + Math.round(newX) + ', ' + Math.round(newY) + ')';
+            }
+            
+            hasChanges = true;
+        }
+        
+        function endDrag(e) {
+            if (dragTarget) {
+                dragTarget.classList.remove('dragging');
+                dragTarget = null;
+            }
+            document.removeEventListener('mousemove', onDrag);
+            document.removeEventListener('mouseup', endDrag);
+            document.removeEventListener('touchmove', onDrag);
+            document.removeEventListener('touchend', endDrag);
+        }
+        
+        // ── 编辑模式切换 ──
+        function toggleEdit() {
+            isEditing = !isEditing;
+            const container = document.getElementById('map-container');
+            const btn = document.getElementById('btn-edit');
+            const btnSave = document.getElementById('btn-save');
+            const btnReset = document.getElementById('btn-reset');
+            const tip = document.getElementById('edit-tip');
+            
+            if (isEditing) {
+                container.classList.add('editing');
+                btn.classList.add('active');
+                btn.textContent = '👁 查看模式';
+                btnSave.disabled = false;
+                btnReset.disabled = false;
+                tip.style.display = 'block';
+            } else {
+                container.classList.remove('editing');
+                btn.classList.remove('active');
+                btn.textContent = '✋ 编辑模式';
+                btnSave.disabled = true;
+                btnReset.disabled = true;
+                tip.style.display = 'none';
+            }
+        }
+        
+        // ── 保存坐标 ──
+        async function savePositions() {
+            if (!SOURCE_JSON) {
+                showToast('错误：未指定 JSON 源文件路径', 'error');
+                return;
+            }
+            
+            const updates = [];
+            Object.entries(handles).forEach(([name, handle]) => {
+                const px = parseFloat(handle.getAttribute('data-x'));
+                const py = parseFloat(handle.getAttribute('data-y'));
+                updates.push({
+                    name: name,
+                    x: parseFloat((px / MAP_WIDTH).toFixed(4)),
+                    y: parseFloat((py / MAP_HEIGHT).toFixed(4))
+                });
+            });
+            
+            try {
+                const resp = await fetch('/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ source: SOURCE_JSON, updates: updates })
+                });
+                
+                const result = await resp.json();
+                if (result.ok) {
+                    showToast('✅ 坐标已保存到 ' + SOURCE_JSON, 'success');
+                    hasChanges = false;
+                    // 更新 originalNodes
+                    updates.forEach(u => {
+                        const node = originalNodes.find(n => n.name === u.name);
+                        if (node) { node.x = u.x; node.y = u.y; }
+                    });
+                    // 提示重新生成 SVG
+                    showToast('🔄 请运行 generate_map.py 刷新 SVG 图层', 'success');
+                } else {
+                    showToast('❌ 保存失败：' + (result.error || '未知错误'), 'error');
+                }
+            } catch (err) {
+                showToast('❌ 网络错误：' + err.message, 'error');
+                showToast('💡 请确认编辑服务器 (map_editor_server.py) 正在运行', 'error');
+            }
+        }
+        
+        // ── 重置 ──
+        function resetPositions() {
+            if (!confirm('确定要放弃所有修改，恢复原始位置？')) return;
+            
+            Object.entries(handles).forEach(([name, handle]) => {
+                const orig = originalNodes.find(n => n.name === name);
+                if (orig) {
+                    const px = Math.round(orig.x * MAP_WIDTH);
+                    const py = Math.round(orig.y * MAP_HEIGHT);
+                    handle.style.left = px + 'px';
+                    handle.style.top = py + 'px';
+                    handle.setAttribute('data-x', px);
+                    handle.setAttribute('data-y', py);
+                    const coordSpan = handle.querySelector('.coord');
+                    if (coordSpan) coordSpan.textContent = '(' + px + ', ' + py + ')';
+                }
+            });
+            hasChanges = false;
+            showToast('↺ 已恢复原始位置', 'success');
+        }
+        
+        // ── Toast 通知 ──
+        function showToast(msg, type) {
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.3s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // ── 点击节点查看详情（覆盖 SVG 圆圈点击） ──
+        function setupClickInfo() {
+            document.querySelectorAll('.drag-handle').forEach(handle => {
+                handle.addEventListener('click', function(e) {
+                    if (hasChanges && dragTarget === null) return; // 拖拽结束后的 click
+                    const name = this.getAttribute('data-name');
+                    const node = nodes.find(n => n.name === name);
+                    const isFog = fogAreas.includes(name);
+                    
+                    let html = '<h3>' + name + '</h3>';
+                    if (node) {
+                        html += '<p>层级：' + node.level + '</p>';
+                    }
+                    html += '<p>状态：' + (isFog ? '迷雾（未解锁）' : '已解锁') + '</p>';
+                    
+                    const conn = connections.find(c => c.to === name);
+                    if (conn) {
+                        html += '<p>交通：' + (conn.method || '') + ' ' + (conn.time || '') + '</p>';
+                    }
+                    
+                    if (isEditing) {
+                        const px = parseFloat(this.getAttribute('data-x'));
+                        const py = parseFloat(this.getAttribute('data-y'));
+                        html += '<p style="color:#e94560">坐标：(' + px + ', ' + py + ') → 相对(' +
+                            (px / MAP_WIDTH).toFixed(4) + ', ' + (py / MAP_HEIGHT).toFixed(4) + ')</p>';
+                    }
+                    
+                    document.getElementById('info').innerHTML = html;
+                });
+            });
+        }
+        
+        // ── 启动 ──
+        initDragHandles();
+        setupClickInfo();
+        console.log('🗺️ 地图编辑器就绪 | 节点数：' + Object.keys(handles).length + ' | 源文件：' + (SOURCE_JSON || '未指定'));
+        console.log('💡 点击「编辑模式」按钮开始拖拽调整节点位置');
+    </script>
+</body>
+</html>

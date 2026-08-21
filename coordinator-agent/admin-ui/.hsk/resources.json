@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "resources": [
+    {
+      "id": "host-1786373901495719259",
+      "type": "host",
+      "filePath": "/workspace/coordinator-agent/admin-ui/dist",
+      "publicUrl": "https://ficp.fun/s/QD7DsU?verify_code=6086",
+      "resourceId": "1786373901495719259",
+      "fileName": "dist",
+      "status": "active",
+      "createdAt": "2026-08-10T15:11:30.897Z",
+      "lastCheckedAt": "2026-08-10T15:11:30.897Z"
+    }
+  ]
+}

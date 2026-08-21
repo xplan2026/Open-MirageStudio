@@ -1,0 +1,20 @@
+# Coordinator-Agent .gitignore
+
+# Dependencies
+node_modules/
+
+# Build output
+admin-ui/dist/
+
+# Environment (credentials managed by parent .env)
+.env
+
+# JWT secret (auto-generated on first run, must NOT be committed)
+.jwt_secret
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log

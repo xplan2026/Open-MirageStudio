@@ -1,0 +1,23 @@
+{
+  "name": "huanjue-website",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "orchestrator": "node orchestrator/index.js",
+    "orchestrator:dev": "node --watch orchestrator/index.js"
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^5.1.0",
+    "astro": "^5.0.0",
+    "d3": "^7.9.0",
+    "marked": "^18.0.9",
+    "tailwindcss": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.0"
+  }
+}

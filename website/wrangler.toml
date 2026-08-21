@@ -1,0 +1,16 @@
+# ============================================================
+# mirage-studio-website — Cloudflare Pages 配置
+# 数据存储改造（方案 B / 2026-08-19）：
+#   媒体 → Pages 静态资产（git data/ 拷贝进 dist，原生 Range，无 25MB 限制）
+#   文本 → D1（mirage-meta，构建时经 scripts/build-data.mjs 重建）
+# 注：原 KV 方案（2026-08-17）已废弃，原因：KV 单值 25MB 上限 + 需自实现 Range 切片
+# ============================================================
+
+name = "mirage-studio-website"
+pages_build_output_dir = "dist"
+
+# ---- D1（文本元数据）----
+[[d1_databases]]
+binding = "META_DB"
+database_name = "mirage-meta"
+database_id = "ac463a4d-61ff-42bf-a56e-aeb89d7cd82a"

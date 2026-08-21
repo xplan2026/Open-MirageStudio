@@ -1,0 +1,503 @@
+{
+  "name": "盘龙岗",
+  "type": "工厂生活区",
+  "level": "L2",
+  "unlocked_by": "ch01",
+  "first_mentioned": "ch01",
+  "coordinates": {
+    "relative_to": "江城",
+    "x": 0.35,
+    "y": 0.45
+  },
+  "description": "嘉陵江北岸的造纸厂生活区。抗战时期上海造纸厂西迁至此。1979年人口约1万。",
+  "districts": {
+    "厂门口": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.646,
+        "y": 0.5975
+      },
+      "scenes": [],
+      "description": "造纸厂正门，主公路东端起点。门口公路对面是食堂和礼堂。"
+    },
+    "主公路": {
+      "level": "L2",
+      "type": "road",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.641,
+        "y": 0.35
+      },
+      "description": "东西向主干道，从厂门口延伸至西厂门，全长约400米。"
+    },
+    "10路公交站": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.543,
+        "y": 0.5525
+      },
+      "scenes": [],
+      "description": "盘龙岗唯一的公交线路，通往江城城区。"
+    },
+    "邮局": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.321,
+        "y": 0.6138
+      },
+      "scenes": [],
+      "description": "绿漆木门，门面很小。有绿色铁皮邮筒。"
+    },
+    "西厂门": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.267,
+        "y": 0.56
+      },
+      "scenes": [],
+      "description": "主公路西端终点。向西厂门以北顺山势上山。"
+    },
+    "食堂": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.684,
+        "y": 0.4875
+      },
+      "scenes": [],
+      "description": "厂门口公路对面（南侧）。工人就餐场所。"
+    },
+    "礼堂": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.647,
+        "y": 0.5012
+      },
+      "scenes": [],
+      "description": "紧邻食堂。厂里开大会、文艺演出用。"
+    },
+    "篮球场": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.542,
+        "y": 0.4825
+      },
+      "scenes": [],
+      "description": "水泥地篮球场，篮板上油漆已裂。"
+    },
+    "医院": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.477,
+        "y": 0.4963
+      },
+      "scenes": [],
+      "description": "厂区医院。"
+    },
+    "糖果店": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.397,
+        "y": 0.505
+      },
+      "scenes": [],
+      "description": "玻璃罐子里装着五颜六色的水果糖。"
+    },
+    "家属楼11排": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.209,
+        "y": 0.115
+      },
+      "scenes": [
+        "家属区"
+      ],
+      "description": "11排红砖平房，从东向西沿主公路南侧排列。第2-4排面朝菜市场（坡上）。第6-7排之间有向北石阶通往子弟小学。第11排已到山坡边缘，坎下10余米落差至兵工厂树林。米丰家在第4排。"
+    },
+    "子弟小学": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.359,
+        "y": 0.2675
+      },
+      "scenes": [
+        "子弟小学"
+      ],
+      "description": "造纸厂子弟小学。家属楼第6-7排之间的石阶向北上山即到。泥地操场、竹旗杆、平房教室。"
+    },
+    "菜市场": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.312,
+        "y": 0.4713
+      },
+      "scenes": [],
+      "description": "从西厂门上山第一站。面朝家属楼第2-4排。早市有农家卖菜。"
+    },
+    "造纸一村": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.267,
+        "y": 0.5
+      },
+      "scenes": [],
+      "description": "最早的家属村。顺山势建在菜市场上方。"
+    },
+    "老干中心": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.263,
+        "y": 0.25
+      },
+      "scenes": [],
+      "description": "离退休干部活动中心。"
+    },
+    "电大": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.162,
+        "y": 0.34
+      },
+      "scenes": [],
+      "description": "广播电视大学教学点。厂办公室附近。"
+    },
+    "机械厂足球场": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.187,
+        "y": 0.2863
+      },
+      "scenes": [],
+      "description": "机械厂区内，兼作露天电影场。1986年机械厂合并到造纸厂。"
+    },
+    "机械厂门口": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.147,
+        "y": 0.2425
+      },
+      "scenes": [],
+      "description": "机械厂大门。1986年合并到造纸厂。"
+    },
+    "下山小路": {
+      "level": "L3",
+      "type": "path",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.194,
+        "y": 0.085
+      },
+      "scenes": [],
+      "description": "从机械厂附近下山到嘉陵江边的小路。"
+    },
+    "兵工厂": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.12,
+        "y": 0.0813
+      },
+      "scenes": [],
+      "description": "山上最深处。家属楼第11排坎下10余米处树林属兵工厂范围。"
+    },
+    "厂区": {
+      "level": "L3",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.587,
+        "y": 0.7338
+      },
+      "scenes": [
+        "厂区"
+      ],
+      "description": "从厂门口到嘉陵江边，顺山势而下的生产区域。含办公楼、车间、原料场、缆车。"
+    },
+    "嘉陵江边": {
+      "level": "L2",
+      "type": "natural",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.65,
+        "y": 0.92
+      },
+      "scenes": [],
+      "description": "盘龙岗南端。缆车从江边运送芦苇等原料上山。"
+    }
+  },
+  "connections": [
+    {
+      "from": "厂门口",
+      "to": "嘉陵江边",
+      "method": "步行",
+      "time": "约8分钟",
+      "via": "厂区大路"
+    },
+    {
+      "from": "厂门口",
+      "to": "西厂门",
+      "method": "步行",
+      "time": "约6分钟",
+      "via": "主公路"
+    },
+    {
+      "from": "厂门口",
+      "to": "食堂",
+      "method": "步行",
+      "time": "约1分钟",
+      "via": "过马路即到"
+    },
+    {
+      "from": "家属楼4排",
+      "to": "子弟小学",
+      "method": "步行",
+      "time": "约5分钟",
+      "via": "向西→第6-7排间石阶→北上"
+    },
+    {
+      "from": "西厂门",
+      "to": "菜市场",
+      "method": "步行上山",
+      "time": "约3分钟"
+    },
+    {
+      "from": "厂门口",
+      "to": "10路公交站",
+      "method": "步行",
+      "time": "约1分钟"
+    },
+    {
+      "from": "10路公交站",
+      "to": "江城城区",
+      "method": "10路公交",
+      "time": "约30分钟"
+    },
+    {
+      "from": "西厂门",
+      "to": "机械厂门口",
+      "method": "步行上山",
+      "time": "约15分钟",
+      "via": "菜市场→造纸一村→老干中心→电大→足球场"
+    }
+  ],
+  "shapes": [
+    {
+      "type": "line",
+      "id": "主公路",
+      "points": [
+        [
+          0.28,
+          0.36
+        ],
+        [
+          0.68,
+          0.36
+        ]
+      ],
+      "stroke": "#e67e22",
+      "stroke_width": 4,
+      "label": "主公路",
+      "label_pos": [
+        0.47,
+        0.32
+      ],
+      "label_color": "#e67e22",
+      "font_size": 12
+    },
+    {
+      "type": "rect",
+      "id": "厂区",
+      "points": [
+        [
+          0.55,
+          0.4
+        ],
+        [
+          0.78,
+          0.88
+        ]
+      ],
+      "fill": "rgba(52, 152, 219, 0.12)",
+      "stroke": "#2980b9",
+      "stroke_width": 2,
+      "label": "厂区（顺山势而下）",
+      "label_pos": [
+        0.66,
+        0.64
+      ],
+      "label_color": "#2980b9",
+      "font_size": 11
+    },
+    {
+      "type": "rect",
+      "id": "家属区",
+      "points": [
+        [
+          0.14,
+          0.38
+        ],
+        [
+          0.34,
+          0.46
+        ]
+      ],
+      "fill": "rgba(231, 76, 60, 0.10)",
+      "stroke": "#c0392b",
+      "stroke_width": 2,
+      "label": "家属区（11排）",
+      "label_pos": [
+        0.24,
+        0.36
+      ],
+      "label_color": "#c0392b",
+      "font_size": 11
+    },
+    {
+      "type": "rect",
+      "id": "嘉陵江",
+      "points": [
+        [
+          0.0,
+          0.9
+        ],
+        [
+          1.0,
+          0.99
+        ]
+      ],
+      "fill": "rgba(52, 152, 219, 0.20)",
+      "stroke": "#2980b9",
+      "stroke_width": 1,
+      "opacity": 0.8,
+      "label": "嘉陵江",
+      "label_pos": [
+        0.5,
+        0.94
+      ],
+      "label_color": "#2980b9",
+      "font_size": 13
+    },
+    {
+      "type": "line",
+      "id": "上山石阶",
+      "points": [
+        [
+          0.24,
+          0.4
+        ],
+        [
+          0.27,
+          0.24
+        ]
+      ],
+      "stroke": "#27ae60",
+      "stroke_width": 2,
+      "dashed": true,
+      "label": "石阶",
+      "label_pos": [
+        0.21,
+        0.32
+      ],
+      "label_color": "#27ae60",
+      "font_size": 10
+    },
+    {
+      "type": "rect",
+      "id": "子弟小学区域",
+      "points": [
+        [
+          0.22,
+          0.2
+        ],
+        [
+          0.32,
+          0.27
+        ]
+      ],
+      "fill": "rgba(46, 204, 113, 0.12)",
+      "stroke": "#27ae60",
+      "stroke_width": 2,
+      "label": "子弟小学",
+      "label_pos": [
+        0.27,
+        0.19
+      ],
+      "label_color": "#27ae60",
+      "font_size": 11
+    },
+    {
+      "type": "rect",
+      "id": "山上区",
+      "points": [
+        [
+          0.1,
+          0.05
+        ],
+        [
+          0.42,
+          0.3
+        ]
+      ],
+      "fill": "rgba(46, 204, 113, 0.06)",
+      "stroke": "#1abc9c",
+      "stroke_width": 1.5,
+      "opacity": 0.6,
+      "label": "盘龙岗山上区",
+      "label_pos": [
+        0.26,
+        0.04
+      ],
+      "label_color": "#1abc9c",
+      "font_size": 12
+    },
+    {
+      "type": "line",
+      "id": "厂区大路",
+      "points": [
+        [
+          0.62,
+          0.4
+        ],
+        [
+          0.62,
+          0.88
+        ]
+      ],
+      "stroke": "#95a5a6",
+      "stroke_width": 2,
+      "dashed": true,
+      "label": "厂区大路",
+      "label_pos": [
+        0.58,
+        0.64
+      ],
+      "label_color": "#7f8c8d",
+      "font_size": 10
+    }
+  ],
+  "fog_of_war": [
+    "造纸二村",
+    "民主新村",
+    "单身宿舍",
+    "子弟中学",
+    "技校",
+    "化工厂",
+    "公共澡堂",
+    "李家坡各地点"
+  ]
+}

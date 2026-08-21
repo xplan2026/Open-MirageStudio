@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getSongs } from '../../lib/data';
+
+const songs = getSongs();
+---
+
+<Layout title="音乐 · 幻觉">
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-2">乐盟原创音乐</h1>
+    <p class="text-muted mb-10">由 AI 乐盟 Agent 创作，二虎数字人歌手演绎</p>
+
+    {
+      songs.length === 0 && (
+        <p class="text-muted italic">暂无歌曲，敬请期待。</p>
+      )
+    }
+
+    <div class="space-y-4">
+      {songs.map(song => (
+        <a
+          href={`/music/${song.id}`}
+          class="flex items-center gap-4 p-4 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all group"
+        >
+          <div class="w-12 h-12 bg-paper-dark rounded flex items-center justify-center shrink-0">
+            <span class="text-lg">🎵</span>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="font-bold group-hover:text-accent transition-colors truncate">{song.title}</h3>
+            <p class="text-xs text-muted mt-0.5">
+              {song.createdAt ? new Date(song.createdAt).toLocaleDateString('zh-CN') : ''}
+              {song.musicPrompt?.vocal_style ? ` · ${song.musicPrompt.vocal_style}` : ''}
+            </p>
+          </div>
+          {
+            song.audioFile && (
+              <span class="text-xs text-muted shrink-0">▶ 试听</span>
+            )
+          }
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

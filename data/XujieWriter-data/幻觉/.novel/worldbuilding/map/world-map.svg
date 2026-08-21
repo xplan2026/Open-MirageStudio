@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="900" height="650" viewBox="0 0 900 650">
+<rect width="900" height="650" fill="#f8f9fa"/>
+<line x1="315" y1="292" x2="450" y2="552" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="382" y="418" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约10分钟</text>
+<line x1="315" y1="292" x2="315" y2="78" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="315" y="181" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行上山 约20分钟</text>
+<text x="20" y="30" font-family="sans-serif" font-size="18" font-weight="bold" fill="#333">《幻觉》世界 (世界)</text>
+<circle cx="315" cy="292" r="18" fill="#f5a623" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="315" y="325" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">盘龙岗</text>
+<text x="315" y="296" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L2</text>
+<circle cx="450" cy="552" r="12" fill="#4a90e2" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="450" y="579" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">嘉陵江</text>
+<text x="450" y="556" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L0</text>
+<circle cx="315" cy="78" r="25" fill="#50c878" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="315" y="118" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">盘龙岗山上区</text>
+<text x="315" y="82" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L1</text>
+<text x="20" y="630" font-family="sans-serif" font-size="12" fill="#999">迷雾区域：江城城区、李家坡、造纸二村、民主新村、嘉陵江对岸、上游沿岸、下游沿岸</text>
+<text x="750" y="60" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">图例</text>
+<circle cx="760" cy="81" r="6" fill="#4a90e2"/>
+<text x="775" y="85" font-family="sans-serif" font-size="11" fill="#333">世界</text>
+<circle cx="760" cy="101" r="6" fill="#50c878"/>
+<text x="775" y="105" font-family="sans-serif" font-size="11" fill="#333">区域</text>
+<circle cx="760" cy="121" r="6" fill="#f5a623"/>
+<text x="775" y="125" font-family="sans-serif" font-size="11" fill="#333">城市</text>
+<circle cx="760" cy="141" r="6" fill="#d0021b"/>
+<text x="775" y="145" font-family="sans-serif" font-size="11" fill="#333">场景</text>
+<circle cx="760" cy="161" r="6" fill="#9013fe"/>
+<text x="775" y="165" font-family="sans-serif" font-size="11" fill="#333">细节</text>
+<circle cx="760" cy="181" r="6" fill="#cccccc"/>
+<text x="775" y="185" font-family="sans-serif" font-size="11" fill="#333">迷雾</text>
+</svg>

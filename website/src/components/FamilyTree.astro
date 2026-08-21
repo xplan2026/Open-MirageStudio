@@ -1,0 +1,598 @@
+---
+// FamilyTree.astro — 基于 D3.js 的交互式家族树（v4 统一 SVG）
+// v4 核心改动：单一 SVG + 节点按出生年独立 X 定位 + 时间轴参与缩放
+export interface Props {
+  familyId: string;
+  treeData: any;
+}
+
+const { familyId, treeData } = Astro.props;
+const treeJson = JSON.stringify(treeData);
+---
+
+<div id="family-tree-container"
+  data-family-id={familyId}
+  data-tree-data={treeJson}
+  style="position:relative; width:100%; overflow:hidden; background:var(--ft-expand-bg); border-radius:8px; border:1px solid var(--ft-link-color); display:flex; flex-direction:column;">
+
+  <!-- 主画布：单一 SVG 承载全部（世代标签 + 家族树 + 时间轴） -->
+  <div id="ft-main-area" style="flex:1; position:relative; overflow:hidden; min-height:520px;">
+    <svg id="ft-tree-svg" style="width:100%; height:100%; display:block;"></svg>
+
+    <!-- 缩放控件 -->
+    <div id="ft-zoom-controls">
+      <button class="ft-zoom-btn" id="ft-zoom-in" title="放大">+</button>
+      <button class="ft-zoom-btn" id="ft-zoom-out" title="缩小">−</button>
+      <button class="ft-zoom-btn" id="ft-zoom-reset" title="重置视图">↺</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline src="https://d3js.org/d3.v7.min.js">
+</script>
+
+<script is:inline>
+  (function() {
+    const container = document.getElementById('family-tree-container');
+    if (!container) return;
+    const familyId = container.dataset.familyId || '';
+    const raw = container.dataset.treeData;
+    if (!raw) {
+      container.innerHTML = '<p style="padding:2rem;text-align:center;color:var(--ft-node-subtext);">暂无族谱树数据</p>';
+      return;
+    }
+    const treeData = JSON.parse(raw);
+    if (!treeData || !treeData.id) {
+      container.innerHTML = '<p style="padding:2rem;text-align:center;color:var(--ft-node-subtext);">暂无族谱树数据</p>';
+      return;
+    }
+
+    // ═══════════════════════════════════════════
+    // 布局常量
+    // ═══════════════════════════════════════════
+    const H_PAD = 140;
+    const NODE_W = 160;
+    const NODE_H = 60;
+    const V_GAP = 25;            // 兄弟姐妹垂直间距（固定 25px）
+    const AXIS_H = 56;           // 底部时间轴区域高度
+    const GEN_BLOCK_H = 28;      // 顶部世代标签块高度
+    const TOP_RESERVE = 70;      // 顶部保留空间
+    const BTM_RESERVE = 16;      // 底部保留空间
+    const AXIS_TOP_PAD = 24;     // 树底到时间轴的间距
+    const ZOOM_MIN = 0.3;
+    const ZOOM_MAX = 3.0;        // 放宽最大缩放
+
+    // ═══════════════════════════════════════════
+    // 数据预处理
+    // ═══════════════════════════════════════════
+    const root = d3.hierarchy(treeData, d => d.children);
+    root.descendants().forEach(d => { d._children = d.children; });
+
+    // 提取所有出生年份
+    const genYearsMap = {};
+    const allYears = [];
+    root.descendants().forEach(d => {
+      const b = parseInt(d.data.birth);
+      if (!isNaN(b)) {
+        allYears.push(b);
+        if (!genYearsMap[d.depth]) genYearsMap[d.depth] = [];
+        genYearsMap[d.depth].push(b);
+      }
+    });
+
+    const maxDepth = d3.max(root.descendants(), d => d.depth);
+    for (let d = 0; d <= maxDepth; d++) {
+      if (!genYearsMap[d]) genYearsMap[d] = [];
+    }
+
+    // 对空缺世代线性插值估算
+    for (let d = 0; d <= maxDepth; d++) {
+      if (genYearsMap[d].length > 0) continue;
+      let prevD = d - 1, nextD = d + 1;
+      while (prevD >= 0 && genYearsMap[prevD].length === 0) prevD--;
+      while (nextD <= maxDepth && genYearsMap[nextD].length === 0) nextD++;
+
+      let estYear;
+      if (prevD >= 0 && nextD <= maxDepth) {
+        const pMedian = d3.median(genYearsMap[prevD]);
+        const nMedian = d3.median(genYearsMap[nextD]);
+        estYear = pMedian + (nMedian - pMedian) * (d - prevD) / (nextD - prevD);
+      } else if (prevD >= 0) {
+        estYear = d3.median(genYearsMap[prevD]) + (d - prevD) * 25;
+      } else if (nextD <= maxDepth) {
+        estYear = d3.median(genYearsMap[nextD]) - (nextD - d) * 25;
+      } else {
+        estYear = 1950;
+      }
+      genYearsMap[d].push(Math.round(estYear));
+    }
+
+    const genMedians = {};
+    const allBirthYears = [];
+    for (let d = 0; d <= maxDepth; d++) {
+      genMedians[d] = d3.median(genYearsMap[d]);
+      genYearsMap[d].forEach(y => allBirthYears.push(y));
+    }
+
+    // 每个节点 → 估算出生年（无数据者用所属世代中位年或插值）
+    const nodeYearMap = {};
+    root.descendants().forEach(d => {
+      const b = parseInt(d.data.birth);
+      if (!isNaN(b)) {
+        nodeYearMap[d.data.id] = b;
+      } else {
+        nodeYearMap[d.data.id] = Math.round(genMedians[d.depth] || 1950);
+      }
+    });
+
+    const yearMin = Math.min(...allBirthYears);
+    const yearMax = Math.max(...allBirthYears);
+    const yearRange = yearMax - yearMin || 60;
+    const yearPad = yearRange * 0.15;
+    const timeDomainMin = yearMin - yearPad;
+    const timeDomainMax = yearMax + yearPad;
+
+    // ═══════════════════════════════════════════
+    // 单一 SVG + 统一缩放组
+    // ═══════════════════════════════════════════
+    const treeSvg = d3.select('#ft-tree-svg');
+    const mainArea = document.getElementById('ft-main-area');
+
+    // 所有可视元素放在同一个 <g> 内，由 D3 zoom 统一变换
+    const zoomG = treeSvg.append('g').attr('class', 'ft-zoom-g');
+    const genLabelsG = zoomG.append('g').attr('class', 'ft-gen-labels-g');
+    const linksG    = zoomG.append('g').attr('class', 'ft-links-g');
+    const nodesG    = zoomG.append('g').attr('class', 'ft-nodes-g');
+    const axisG     = zoomG.append('g').attr('class', 'ft-axis-g');
+
+    // d3.tree 仅用于垂直排序（兄弟节点竖直排列）
+    const treeLayout = d3.tree().nodeSize([NODE_H + V_GAP, 1]);
+
+    // ═══════════════════════════════════════════
+    // 时间尺度：年份 → SVG X 像素
+    // ═══════════════════════════════════════════
+    let timeScale;
+
+    function buildTimeScale(containerW) {
+      const availW = containerW - H_PAD * 2;
+      timeScale = d3.scaleLinear()
+        .domain([timeDomainMin, timeDomainMax])
+        .range([0, availW]);
+    }
+
+    // ═══════════════════════════════════════════
+    // 贝塞尔连线
+    // ═══════════════════════════════════════════
+    function diagonal(s, t) {
+      const sx = s.displayX;
+      const sy = s.displayY + NODE_H / 2;   // 从节点底部出
+      const tx = t.displayX;
+      const ty = t.displayY - NODE_H / 2;   // 到节点顶部入
+      return `M ${sx} ${sy}
+              C ${sx} ${(sy + ty) / 2},
+                ${tx} ${(sy + ty) / 2},
+                ${tx} ${ty}`;
+    }
+
+    // ═══════════════════════════════════════════
+    // calcLayoutAndAxes — 计算坐标 + 绘制世代标签 + 绘制时间轴
+    // ═══════════════════════════════════════════
+    function calcLayoutAndAxes() {
+      const rect = mainArea.getBoundingClientRect();
+      const cw = rect.width || 1200;
+      const ch = rect.height || 600;
+      buildTimeScale(cw);
+
+      // 运行树布局获取垂直位置
+      treeLayout(root);
+      const allNodes = root.descendants();
+
+      // 每个节点 X = 自身出生年映射到时间轴, Y = 树布局原始垂直位置
+      allNodes.forEach(d => {
+        d.displayX = timeScale(nodeYearMap[d.data.id]) + H_PAD;
+        d.displayY = d.x;
+      });
+
+      // ---- 垂直居中计算 ----
+      // 原始垂直范围（未居中）
+      const rawMinY = d3.min(allNodes, d => d.displayY - NODE_H / 2);
+      const rawMaxY = d3.max(allNodes, d => d.displayY + NODE_H / 2 + 70);
+      const treeH = rawMaxY - rawMinY;
+
+      // viewH 取容器高度与最小所需高度中的较大者
+      const minViewH = GEN_BLOCK_H + 20 + treeH + AXIS_TOP_PAD + AXIS_H + BTM_RESERVE;
+      viewH = Math.max(ch, minViewH);
+
+      // 可用垂直空间（扣除顶部世代标签块 + 底部时间轴）
+      const usableH = viewH - GEN_BLOCK_H - 20 - AXIS_TOP_PAD - AXIS_H - BTM_RESERVE;
+      const yOffset = GEN_BLOCK_H + 20 + (usableH - treeH) / 2 - rawMinY;
+
+      // 应用居中偏移 — 所有节点整体下移
+      allNodes.forEach(d => { d.displayY += yOffset; });
+
+      // 重算视图范围
+      let minX = Infinity, maxX = -Infinity, maxY = -Infinity;
+      allNodes.forEach(d => {
+        const x1 = d.displayX - NODE_W / 2;
+        const x2 = d.displayX + NODE_W / 2;
+        const y2 = d.displayY + NODE_H / 2 + 70;
+        if (x1 < minX) minX = x1;
+        if (x2 > maxX) maxX = x2;
+        if (y2 > maxY) maxY = y2;
+      });
+
+      const vbX = minX - H_PAD / 2;
+      const vbY = 0;
+      viewW = Math.max(cw, maxX - minX + H_PAD);
+      const axisY = maxY + AXIS_TOP_PAD;
+
+      treeSvg
+        .attr('viewBox', `${vbX} ${vbY} ${viewW} ${viewH}`)
+        .attr('preserveAspectRatio', 'xMidYMin meet');
+
+      // ---- 顶部世代标签块（固定在 viewBox 顶部 Y=4）----
+      genLabelsG.selectAll('*').remove();
+
+      for (let d = 0; d <= maxDepth; d++) {
+        const genNodes = allNodes.filter(n => n.depth === d);
+        if (genNodes.length === 0) continue;
+        const gMinX = d3.min(genNodes, n => n.displayX) - NODE_W / 2;
+        const gMaxX = d3.max(genNodes, n => n.displayX) + NODE_W / 2;
+        const blockW = Math.max(NODE_W, gMaxX - gMinX + 16);
+        const cx = (gMinX + gMaxX) / 2;
+        const bx = cx - blockW / 2;
+        const by = 4;
+
+        const colors = ['#e8f0fe', '#fce4ec', '#e8f5e9', '#fff3e0', '#f3e5f5', '#e0f7fa'];
+        genLabelsG.append('rect')
+          .attr('class', 'ft-gen-block')
+          .attr('x', bx)
+          .attr('y', by)
+          .attr('width', blockW)
+          .attr('height', GEN_BLOCK_H)
+          .attr('rx', 4)
+          .attr('fill', colors[d % colors.length])
+          .attr('stroke', 'var(--ft-link-color)')
+          .attr('stroke-width', 0.5);
+
+        const label = d === 0 ? '一世(祖)' : `${d + 1}世`;
+        genLabelsG.append('text')
+          .attr('class', 'ft-gen-label')
+          .attr('x', cx)
+          .attr('y', by + GEN_BLOCK_H / 2 + 4)
+          .attr('text-anchor', 'middle')
+          .attr('fill', 'var(--ft-expand-stroke)')
+          .attr('font-size', '11px')
+          .attr('font-family', '"Noto Sans SC", sans-serif')
+          .attr('font-weight', '600')
+          .text(label);
+      }
+
+      // ---- 底部时间轴 ----
+      drawTimeAxis(axisY, viewW);
+    }
+
+    // ═══════════════════════════════════════════
+    // drawTimeAxis — 绘制在 zoom group 内，参与统一缩放
+    // ═══════════════════════════════════════════
+    function drawTimeAxis(axisY, vbW) {
+      axisG.selectAll('*').remove();
+
+      const axW = vbW - H_PAD;
+
+      // 主轴线
+      axisG.append('line')
+        .attr('x1', H_PAD)
+        .attr('x2', H_PAD + axW)
+        .attr('y1', axisY)
+        .attr('y2', axisY)
+        .attr('stroke', 'var(--ft-axis-border)')
+        .attr('stroke-width', 1);
+
+      // 重要：axisTimeScale 的 range 起始于 H_PAD，与节点 timeScale 一致
+      const axisTimeScale = d3.scaleLinear()
+        .domain([timeDomainMin, timeDomainMax])
+        .range([H_PAD, H_PAD + axW]);
+
+      // ---- 主刻度：每 10 年，带标签 ----
+      const majorStep = 10;
+      const firstMajor = Math.ceil(timeDomainMin / majorStep) * majorStep;
+      const majorTicks = [];
+      for (let y = firstMajor; y <= timeDomainMax; y += majorStep) {
+        majorTicks.push(y);
+      }
+
+      // ---- 次刻度：每个 10 年之间每 2 年一个小刻度，不显示数字 ----
+      const minorStep = 2;
+      const minorTicks = [];
+      for (let y = firstMajor; y <= timeDomainMax; y += majorStep) {
+        for (let my = y + minorStep; my < y + majorStep && my <= timeDomainMax; my += minorStep) {
+          minorTicks.push(my);
+        }
+      }
+
+      // 绘制主刻度线 + 标签
+      majorTicks.forEach(y => {
+        const x = axisTimeScale(y);
+        axisG.append('line')
+          .attr('x1', x).attr('x2', x)
+          .attr('y1', axisY).attr('y2', axisY + 8)
+          .attr('stroke', 'var(--ft-link-color)')
+          .attr('stroke-width', 0.8);
+        axisG.append('text')
+          .attr('x', x).attr('y', axisY + 22)
+          .attr('text-anchor', 'middle')
+          .attr('fill', 'var(--ft-node-subtext)')
+          .attr('font-size', '10px')
+          .attr('font-family', '"Noto Sans SC", sans-serif')
+          .text(y);
+      });
+
+      // 绘制次刻度线（更短、更淡、无标签）
+      axisG.selectAll('.ft-minor-tick')
+        .data(minorTicks)
+        .enter()
+        .append('line')
+        .attr('class', 'ft-minor-tick')
+        .attr('x1', d => axisTimeScale(d))
+        .attr('x2', d => axisTimeScale(d))
+        .attr('y1', axisY)
+        .attr('y2', axisY + 4)
+        .attr('stroke', 'var(--ft-link-color)')
+        .attr('stroke-width', 0.3)
+        .attr('opacity', 0.5);
+
+      // 当前年份标记
+      const nowYear = new Date().getFullYear();
+      if (nowYear >= timeDomainMin && nowYear <= timeDomainMax) {
+        const nowX = axisTimeScale(nowYear);
+        axisG.append('line')
+          .attr('x1', nowX).attr('x2', nowX)
+          .attr('y1', axisY - 4).attr('y2', axisY + AXIS_H - 8)
+          .attr('stroke', 'var(--ft-expand-stroke)')
+          .attr('stroke-width', 1.2)
+          .attr('stroke-dasharray', '4,3');
+        axisG.append('text')
+          .attr('x', nowX).attr('y', axisY + AXIS_H - 18)
+          .attr('text-anchor', 'middle')
+          .attr('fill', 'var(--ft-expand-stroke)')
+          .attr('font-size', '9px')
+          .attr('font-family', '"Noto Sans SC", sans-serif')
+          .attr('font-weight', '600')
+          .text('今');
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    // Zoom 行为 — 应用于单一 <g>，三大结构同步缩放
+    // ═══════════════════════════════════════════
+    const zoom = d3.zoom()
+      .scaleExtent([ZOOM_MIN, ZOOM_MAX])
+      .on('zoom', (e) => {
+        zoomG.attr('transform', e.transform);
+      });
+
+    treeSvg.call(zoom);
+
+    // 初始 zoom = identity，由 SVG viewBox + preserveAspectRatio 自动适配
+    treeSvg.call(zoom.transform, d3.zoomIdentity);
+
+    const initTransform = d3.zoomIdentity;
+
+    function updateZoomConstraints() {
+      const rect = mainArea.getBoundingClientRect();
+      const cw = rect.width || 1200;
+      const ch = rect.height || 600;
+      zoom.translateExtent([
+        [cw - viewW * ZOOM_MAX, ch - viewH * ZOOM_MAX],
+        [cw * 0.5, ch * 0.3]
+      ]);
+    }
+
+    // Zoom 按钮
+    document.getElementById('ft-zoom-in')?.addEventListener('click', () => {
+      treeSvg.transition().duration(300).call(zoom.scaleBy, 1.3);
+    });
+    document.getElementById('ft-zoom-out')?.addEventListener('click', () => {
+      treeSvg.transition().duration(300).call(zoom.scaleBy, 0.7);
+    });
+    document.getElementById('ft-zoom-reset')?.addEventListener('click', () => {
+      treeSvg.transition().duration(400)
+        .call(zoom.transform, initTransform);
+    });
+
+    // ═══════════════════════════════════════════
+    // 切换子节点展开/折叠
+    // ═══════════════════════════════════════════
+    function toggleChildren(d) {
+      if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+      update(d);
+    }
+
+    // ═══════════════════════════════════════════
+    // 树更新（核心渲染）
+    // ═══════════════════════════════════════════
+    let viewW = 1200, viewH = 700;
+
+    function update(source) {
+      // 保存当前 zoom 状态，防止 viewBox 重建导致画面跳动
+      const savedTransform = d3.zoomTransform(treeSvg.node());
+
+      calcLayoutAndAxes();
+      updateZoomConstraints();
+
+      // displayX/displayY 已在 calcLayoutAndAxes 中计算并居中
+      const nodes = root.descendants();
+      const links = root.links();
+
+      const duration = 500;
+
+      // ---- 连线 ----
+      const link = linksG.selectAll('.ft-link')
+        .data(links, d => d.target.data.id);
+
+      const linkEnter = link.enter()
+        .append('path')
+        .attr('class', 'ft-link')
+        .attr('d', () => {
+          const sx = source.displayX || H_PAD;
+          const sy = source.displayY || 100;
+          return `M ${sx} ${sy} C ${sx} ${sy}, ${sx} ${sy}, ${sx} ${sy}`;
+        });
+
+      link.merge(linkEnter)
+        .transition().duration(duration)
+        .attr('d', d => diagonal(d.source, d.target));
+
+      link.exit()
+        .transition().duration(duration * 0.6)
+        .attr('opacity', 0)
+        .remove();
+
+      // ---- 节点 ----
+      const node = nodesG.selectAll('.ft-node')
+        .data(nodes, d => d.data.id);
+
+      const nodeEnter = node.enter()
+        .append('g')
+        .attr('class', 'ft-node')
+        .attr('transform', () => {
+          const sx = source.displayX || H_PAD;
+          const sy = source.displayY || 100;
+          return `translate(${sx},${sy})`;
+        })
+        .style('cursor', 'pointer')
+        .on('click', (_e, d) => {
+          window.location.href = '/family/' + familyId + '/' + d.data.id;
+        });
+
+      // 节点背景
+      nodeEnter.append('rect')
+        .attr('class', d => `ft-node-bg ${d.data.gender === '男' ? 'male' : 'female'}`)
+        .attr('x', -NODE_W / 2)
+        .attr('y', -NODE_H / 2)
+        .attr('width', NODE_W)
+        .attr('height', NODE_H);
+
+      // 姓名
+      nodeEnter.append('text')
+        .attr('class', 'ft-node-name')
+        .attr('y', -8)
+        .text(d => d.data.name);
+
+      // 生卒年份
+      nodeEnter.append('text')
+        .attr('class', 'ft-node-dates')
+        .attr('y', 10)
+        .text(d => {
+          const b = d.data.birth || '';
+          const de = d.data.death || '';
+          if (b && de) return b + ' - ' + de;
+          if (b) return b + ' -';
+          return '';
+        });
+
+      // 性别符号
+      nodeEnter.append('text')
+        .attr('class', 'ft-node-gender')
+        .attr('x', NODE_W / 2 - 14)
+        .attr('y', -NODE_H / 2 + 14)
+        .attr('fill', d => d.data.gender === '男'
+          ? 'var(--ft-node-male-gender)' : 'var(--ft-node-female-gender)')
+        .text(d => d.data.gender === '男' ? '♂' : '♀');
+
+      // 展开/折叠控件
+      const hasKids = nodeEnter.filter(d =>
+        d.data.children && d.data.children.length > 0
+      );
+
+      const toggleG = hasKids.append('g')
+        .attr('class', 'ft-toggle')
+        .style('cursor', 'pointer')
+        .on('click', (e, d) => { e.stopPropagation(); toggleChildren(d); });
+
+      toggleG.append('circle')
+        .attr('cx', 0)
+        .attr('cy', NODE_H / 2 + 12)
+        .attr('r', 9);
+
+      toggleG.append('text')
+        .attr('x', 0)
+        .attr('y', NODE_H / 2 + 15)
+        .text(d => d.children ? '\u2212' : '+');
+
+      // 配偶标签
+      nodeEnter.each(function(d) {
+        const spouses = d.data.spouseNames || [];
+        if (spouses.length === 0) return;
+        const nodeG = d3.select(this);
+
+        spouses.forEach((sp, i) => {
+          const offY = NODE_H / 2 + 30 + i * 22;
+          const spG = nodeG.append('g').attr('class', 'ft-spouse');
+
+          spG.append('rect')
+            .attr('x', -NODE_W / 2 + 10)
+            .attr('y', offY - 8)
+            .attr('width', NODE_W - 20)
+            .attr('height', 18);
+
+          const isClickable = !!sp.familyId;
+          const txt = spG.append('text')
+            .attr('class', isClickable ? 'clickable' : '')
+            .attr('x', 0)
+            .attr('y', offY + 4)
+            .text(isClickable
+              ? (sp.name + '\u00b7' + sp.familyId.replace('家族', ''))
+              : ('\u26ad ' + sp.name));
+
+          if (isClickable) {
+            txt.on('click', (e) => {
+              e.stopPropagation();
+              window.location.href = '/family/' + sp.familyId;
+            });
+          }
+        });
+      });
+
+      // 合并 + 动画 → displayX / displayY
+      const nodeMerge = node.merge(nodeEnter)
+        .transition().duration(duration)
+        .attr('transform', d => `translate(${d.displayX},${d.displayY})`);
+
+      // 折叠圆圈状态
+      nodeMerge.select('.ft-toggle circle')
+        .attr('class', d => d.children ? '' : 'collapsed');
+
+      // Exit
+      node.exit()
+        .transition().duration(duration * 0.6)
+        .attr('opacity', 0)
+        .remove();
+
+      // 恢复 zoom 变换，防止画面跳动
+      treeSvg.call(zoom.transform, savedTransform);
+    }
+
+    // ═══════════════════════════════════════════
+    // 初始渲染
+    // ═══════════════════════════════════════════
+    treeSvg.attr('preserveAspectRatio', 'xMidYMin meet');
+    update(root);
+
+    // ═══════════════════════════════════════════
+    // 响应式
+    // ═══════════════════════════════════════════
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { update(root); }, 200);
+    });
+  })();
+</script>

@@ -1,0 +1,37 @@
+{
+  "title": "幻觉",
+  "created_at": "2026-07-15T17:27:32.049Z",
+  "music_prompt": {
+    "caption_en": "Mongolian folk ballad, morin khuur, khoomei, acoustic guitar, drums, deep husky male voice, vast and contemplative",
+    "instruments": [
+      "morin khuur",
+      "khoomei",
+      "acoustic guitar",
+      "drums"
+    ],
+    "mood": "vast, contemplative, resilient",
+    "vocal_style": "低沉沙哑男声，叙事性唱法",
+    "vocal_language": "zh",
+    "duration": 180,
+    "time_signature": "4/4",
+    "audio_format": "mp3",
+    "thinking": true,
+    "special_notes": "CRITICAL: Chinese (Mandarin) song, no English lyrics"
+  },
+  "lyrics_source": "幻觉.txt",
+  "lyrics": "[Verse 1]\n风从草原吹过，卷起沙粒的沉默\n课本上的字迹，渐渐褪成荒漠\n鹰在天空盘旋，寻找河流的承诺\n我却听见马头琴，拉响古老的困惑\n\n[Chorus]\n难道这是幻觉，还是真相被隐藏?\nAI的歌声里，藏着谁的伪装?\n我们站在风中，握紧沙粒的微光\n求索的路太长，但脚步依然坚强！\n\n[Verse 2]\n纸从手中滑落，真理难以掌握；\n网络上的浪花，带来更多迷惑；\n呼麦的低吟里，画面全是漂泊；\n我问每一粒沙，答案却都是沉默\n\n[Chorus]\n难道这是幻觉，还是真相被隐藏?\nAI的歌声里，藏着谁的伪装？\n我们站在风中，握紧沙粒的微光\n求索的路太长，但脚步依然坚强！\n\n[Bridge]\n雄鹰飞过山岗，河流奔向远方\n沙粒总被忽略，却有自己的方向\n马头琴声苍凉，呼麦在风中回荡\n我们学会分辨，探寻真理的光芒\n\n[Outro]\n幻觉定会消散，微沙也能聚光\n风吹让我清醒，草原驼铃回响\n带着觉醒的幼苗，轻声吟唱\n在求索的旅程上，绵长悠扬！",
+  "audio": [
+    {
+      "file": "幻觉-1.mp3",
+      "file_size": 3681069,
+      "quality": "good",
+      "created_at": "2026-07-15T17:59:00.000Z"
+    },
+    {
+      "file": "幻觉-cool.mp3",
+      "file_size": 3760941,
+      "quality": "best",
+      "created_at": "2026-07-15T18:07:50.200Z"
+    }
+  ]
+}

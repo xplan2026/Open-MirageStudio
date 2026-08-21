@@ -1,0 +1,22 @@
+{
+  "title": "醉太平·渔利",
+  "style": "",
+  "created_at": "2026-07-18T07:37:41.490Z",
+  "music_prompt": {
+    "caption_en": "Chinese folk ballad with narrative drive, blending guzheng and erhu with acoustic guitar. Warm, gritty male vocal in Mandarin. Slow build to intense then fade.",
+    "instruments": "acoustic guitar, erhu, guzheng, dizi, percussion (light), bass",
+    "mood": "contemplative, intense, melancholic, narrative",
+    "vocal_language": "zh",
+    "vocal_style": "Warm, gritty, nasal male vocal with a natural, unpolished delivery. Eagles-like warm, gritty, nasal male voice.",
+    "duration": 180,
+    "time_signature": "4/4",
+    "audio_format": "mp3",
+    "thinking": true,
+    "special_notes": "CRITICAL: Chinese (Mandarin) song, no English lyrics. Vocals should be rough and heartfelt, with a slightly nasal quality reminiscent of Eagles' vocal style."
+  },
+  "lyrics": "[第一段]\n香饵乱投，钓线密收，\n渔翁稳坐钓江秋，看鱼争逐流。\n朝从螺厣穿细线，暮向蟹眼下金钩，\n更将虾须缠饵诱，无中觅有。\n\n[桥接]\n可叹这江上机关千百种，\n说穿了不过四个字：愿者上钩。\n你看那水底游鳞争一口，\n可曾见岸上渔翁——\n鱼篓满了，竿还在抖；\n江面平了，潜浪仍流。\n\n[副歌]\n万千鱼影争上钩——\n平台高坐钓鱼楼，司机似鱼浪里游。\n七分抽成三分留，一脚油门一脚愁。\n抢单抢到三更后，何时脱得这钓钩？\n\n[第二段]\n锦鲤衔钩忘性命，银鲦逐沫不知休，\n纵使饵细如糠秕，也争抢、不肯丢。\n跑遍全城千百单，高额佣金抽，\n平台满篓不觉重，报表炫利羞。\n\n[副歌]\n万千鱼影争上钩——\n平台高坐钓鱼楼，司机似鱼浪里游。\n七分抽成三分留，一脚油门一脚愁。\n抢单抢到三更后，何时脱得这钓钩？\n\n[退出段]\n风定收竿罢，残饵随波流——\n满江星月无人钓，空照旧���舟。",
+  "audio": {
+    "file": "醉太平_渔利.mp3",
+    "file_size": 3360813
+  }
+}

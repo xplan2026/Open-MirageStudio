@@ -1,0 +1,62 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getErhuProjects } from '../../lib/data';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const projects = getErhuProjects();
+  return projects.map(p => ({ params: { slug: p.id } }));
+};
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/mv');
+
+const projects = getErhuProjects();
+const project = projects.find(p => p.id === slug);
+
+if (!project) return Astro.redirect('/mv');
+---
+
+<Layout title={`${project.title} · 幻觉`}>
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <div class="mb-8 text-sm text-muted">
+      <a href="/mv" class="hover:text-ink transition-colors">← 返回 MV 列表</a>
+    </div>
+
+    <h1 class="text-3xl font-bold mb-2">{project.title}</h1>
+    <div class="flex gap-4 text-sm text-muted mb-8">
+      {project.completedDate && <span>完成于 {project.completedDate}</span>}
+      <span class="px-2 py-0.5 bg-paper-dark rounded text-xs">{project.status}</span>
+      {project.imageCount > 0 && <span>{project.imageCount} 张图片</span>}
+    </div>
+
+    <!-- MV 视频播放器 -->
+    {
+      project.mp4File && (
+        <div class="mb-10">
+          <video
+            controls
+            class="w-full rounded-lg"
+            preload="metadata"
+            poster={project.hasImages ? '' : undefined}
+          >
+            <source src={`/${project.mp4File}`} type="video/mp4" />
+            您的浏览器不支持视频播放。
+          </video>
+        </div>
+      )
+    }
+
+    <!-- 仅音频时 -->
+    {
+      !project.mp4File && project.mp3File && (
+        <div class="mb-10 p-6 bg-paper-dark/50 rounded-lg">
+          <p class="text-sm text-muted mb-3">该作品暂未生成 MV 视频，可试听音频：</p>
+          <audio controls class="w-full" preload="metadata">
+            <source src={`/${project.mp3File}`} type="audio/mpeg" />
+          </audio>
+        </div>
+      )
+    }
+  </div>
+</Layout>

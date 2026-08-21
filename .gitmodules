@@ -1,0 +1,3 @@
+[submodule "xujie-writer-agent/ai-fiction-writer"]
+	path = xujie-writer-agent/ai-fiction-writer
+	url = https://github.com/Wooooooooood/ai-fiction-writer.git

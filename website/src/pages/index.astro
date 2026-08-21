@@ -1,0 +1,102 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getNovel, getSongs, getErhuProjects, getFamilies, getBlogPosts } from '../lib/data';
+
+const novel = getNovel();
+const songs = getSongs();
+const erhuProjects = getErhuProjects();
+const families = getFamilies();
+const blogPosts = getBlogPosts();
+---
+
+<Layout>
+  <!-- Hero -->
+  <section class="max-w-3xl mx-auto px-6 py-24 text-center">
+    <h1 class="text-5xl font-bold text-ink mb-4 tracking-wide">幻觉</h1>
+    <p class="text-xl text-muted mb-2">横跨百年的家族史诗</p>
+    <p class="text-muted max-w-xl mx-auto leading-relaxed">
+      以长篇连载小说为骨架、AI 原生音乐与 MV 为血肉、家族族谱为经脉的跨媒介叙事 IP。
+    </p>
+    <div class="mt-8 flex justify-center gap-4">
+      <a href="/novel" class="px-6 py-3 bg-ink text-paper rounded hover:bg-ink-light transition-colors text-sm font-medium">开始阅读</a>
+      <a href="/music" class="px-6 py-3 border border-ink/20 rounded hover:border-ink/40 transition-colors text-sm font-medium">聆听音乐</a>
+    </div>
+  </section>
+
+  <!-- 板块卡片 -->
+  <section class="max-w-5xl mx-auto px-6 pb-24 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- 小说 -->
+    <a href="/novel" class="group block p-6 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all">
+      <h3 class="text-lg font-bold mb-1 group-hover:text-accent transition-colors">小说</h3>
+      <p class="text-sm text-muted mb-3">家族史诗，百年沉浮</p>
+      {
+        novel ? (
+          <span class="text-xs text-muted">
+            {novel.totalChapters} 章 · {novel.volumes.length} 卷
+          </span>
+        ) : (
+          <span class="text-xs text-muted">即将上线</span>
+        )
+      }
+    </a>
+
+    <!-- 音乐 -->
+    <a href="/music" class="group block p-6 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all">
+      <h3 class="text-lg font-bold mb-1 group-hover:text-accent transition-colors">音乐</h3>
+      <p class="text-sm text-muted mb-3">AI 原创，乐盟出品</p>
+      {
+        songs.length > 0 ? (
+          <span class="text-xs text-muted">{songs.length} 首原创歌曲</span>
+        ) : (
+          <span class="text-xs text-muted">即将上线</span>
+        )
+      }
+    </a>
+
+    <!-- MV -->
+    <a href="/mv" class="group block p-6 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all">
+      <h3 class="text-lg font-bold mb-1 group-hover:text-accent transition-colors">MV</h3>
+      <p class="text-sm text-muted mb-3">数字人歌手 · 二虎演绎</p>
+      {
+        erhuProjects.length > 0 ? (
+          <span class="text-xs text-muted">{erhuProjects.length} 部 MV 作品</span>
+        ) : (
+          <span class="text-xs text-muted">即将上线</span>
+        )
+      }
+    </a>
+
+    <!-- 族谱 -->
+    <a href="/family" class="group block p-6 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all">
+      <h3 class="text-lg font-bold mb-1 group-hover:text-accent transition-colors">族谱</h3>
+      <p class="text-sm text-muted mb-3">角色家族，根系相连</p>
+      {
+        families.length > 0 ? (
+          <span class="text-xs text-muted">{families.length} 个家族</span>
+        ) : (
+          <span class="text-xs text-muted">即将上线</span>
+        )
+      }
+    </a>
+
+    <!-- 博客 -->
+    <a href="/blog" class="group block p-6 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all">
+      <h3 class="text-lg font-bold mb-1 group-hover:text-accent transition-colors">博客</h3>
+      <p class="text-sm text-muted mb-3">技术实践，架构思考</p>
+      {
+        blogPosts.length > 0 ? (
+          <span class="text-xs text-muted">{blogPosts.length} 篇文章</span>
+        ) : (
+          <span class="text-xs text-muted">即将上线</span>
+        )
+      }
+    </a>
+
+    <!-- 社区 -->
+    <a href="/community" class="group block p-6 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all">
+      <h3 class="text-lg font-bold mb-1 group-hover:text-accent transition-colors">社区</h3>
+      <p class="text-sm text-muted mb-3">读者互动，创作讨论</p>
+      <span class="text-xs text-muted">近期开放</span>
+    </a>
+  </section>
+</Layout>

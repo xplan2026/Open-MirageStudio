@@ -1,0 +1,32 @@
+# Lemong-data — LLMs 知识文件
+
+> 此文件用于向 AI/LLM 提供 `data/Lemong-data/` 目录下数据的全局上下文。
+
+## 数据目录结构
+
+```
+data/Lemong-data/
+├── LLMs.txt              # 本文件 — 全局索引与使用说明
+└── {歌名}/               # 每首歌一个独立子目录
+    ├── {歌名}.mp3         # 音频文件
+    ├── 歌词.md            # 歌词（Markdown 格式）
+    └── prompt.json        # 音乐生成 prompt + 元数据
+```
+
+## 歌曲索引
+
+| 歌名 | 创建时间 | 风格 | BPM | 调性 |
+|------|---------|------|-----|------|
+| 归航109 | 2026-07-14 | Pop-rock ballad (Eagles style) | 90 | Em → G → Em |
+| 幻觉 | 2026-07-15 | 草原诗 (ambient folk) | 70 | Am |
+
+## 使用说明
+
+- 每个子目录包含一首歌的完整产物：音频、歌词、生成参数
+- `prompt.json` 包含完整的 music prompt、乐器配置、人声风格等信息
+- `歌词.md` 是从 `prompt.json` 中提取的纯歌词，方便阅读和编辑
+- 新歌通过 `lemong-agent generate` 命令自动生成到此目录
+
+## 数据来源
+
+由 Lemong Agent (`lemong-agent/`) 通过 DeepSeek + ACE API 生成。

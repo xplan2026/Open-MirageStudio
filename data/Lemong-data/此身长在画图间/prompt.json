@@ -1,0 +1,22 @@
+{
+  "title": "此身长在画图间",
+  "style": "",
+  "created_at": "2026-07-17T03:47:42.437Z",
+  "music_prompt": {
+    "caption_en": "Chinese folk ballad with guzheng, dizi, and pipa, warm and unhurried. Gritty male vocal in Mandarin.",
+    "instruments": "古筝、笛子、琵琶、木吉他、弦乐",
+    "mood": "超然、豁达、从容、温暖",
+    "vocal_language": "zh",
+    "vocal_style": "Warm, gritty, nasal male vocal with a natural, unpolished delivery. Eagles-like warm, gritty, nasal male voice.",
+    "duration": 180,
+    "time_signature": "4/4",
+    "audio_format": "mp3",
+    "thinking": true,
+    "special_notes": "CRITICAL: Chinese (Mandarin) song, no English lyrics. Vocals should be rough and heartfelt, with a slightly nasal quality reminiscent of Eagles' vocal style."
+  },
+  "lyrics": "[A段]\n月光斟满琉璃盏 且与你共饮这半世清欢\n看人情如潮水 涨落间翻覆起波澜\n昨日相知诺言 今作星火离散\n莫若就杯中云影 一口饮尽悲欢\n\n[副歌A]\n何妨醉眼看千山 山色都似我蹒跚\n风起时衣袂轻展 笑这尘寰多辗转\n且把浮名都换作 一场酩酊的坦然\n醉眼朦胧处 天地自浩瀚\n\n[B段]\n记得那年细雨软 染得漫坡青草如绢\n如今花枝欲绽 却在春寒里颤了颤\n不是东风不肯暖 奈何时光总设关\n待雨洗旧尘 枝头又会开满清欢\n\n[副歌B]\n此身长在画图间 墨色深浅皆随缘\n浓处是悲欢 淡处是云烟\n若觉坎坷如皴染 便当它是神来笔\n我在画中行 山水自安然\n\n[退出段]\n且再斟满 这最后半盏阑珊\n敬人世波澜 敬草木清寒\n敬一场醉里看山 醒来仍在画中眠\n不如就此 与星光共老\n与天地 共一帧圆满",
+  "audio": {
+    "file": "此身长在画图间.mp3",
+    "file_size": 3441069
+  }
+}

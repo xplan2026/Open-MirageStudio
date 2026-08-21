@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getFamilies } from '../../lib/data';
+
+const families = getFamilies();
+---
+
+<Layout title="族谱 · 幻觉">
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-2">角色家族</h1>
+    <p class="text-muted mb-10">《幻觉》小说中的家族树，根系相连，百年流转</p>
+
+    {
+      families.length === 0 && (
+        <p class="text-muted italic">暂无族谱数据。</p>
+      )
+    }
+
+    <div class="space-y-6">
+      {families.map(family => (
+        <a
+          href={`/family/${family.id}`}
+          class="group block p-6 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all"
+        >
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-xl font-bold group-hover:text-accent transition-colors">{family.name}</h3>
+              <p class="text-sm text-muted mt-1">{family.description}</p>
+            </div>
+            <div class="text-right text-xs text-muted shrink-0">
+              <p>{family.memberCount} 位成员</p>
+              <p>{family.generationCount} 代传承</p>
+            </div>
+          </div>
+          {
+            family.motto && (
+              <p class="mt-4 text-sm text-muted italic border-l-2 border-accent/30 pl-3">
+                「{family.motto}」
+              </p>
+            )
+          }
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

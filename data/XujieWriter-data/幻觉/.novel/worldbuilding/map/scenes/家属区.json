@@ -1,0 +1,57 @@
+{
+  "name": "家属区",
+  "type": "生活区",
+  "level": "L3",
+  "unlocked_by": "ch01",
+  "first_mentioned": "ch01",
+  "coordinates": {
+    "relative_to": "盘龙岗",
+    "x": 0.22,
+    "y": 0.38
+  },
+  "description": "11排红砖平房沿主公路南侧从东向西排列。米丰家在第4排。",
+  "rows": [
+    {"number": 1, "x": 0.35, "y": 0.38, "note": "最东端，靠近糖果店"},
+    {"number": 2, "x": 0.33, "y": 0.38, "note": "面朝坡上菜市场"},
+    {"number": 3, "x": 0.31, "y": 0.38, "note": "面朝坡上菜市场"},
+    {"number": 4, "x": 0.28, "y": 0.38, "note": "米丰家。面朝菜市场。门口有槐树。"},
+    {"number": 5, "x": 0.26, "y": 0.38, "note": ""},
+    {"number": 6, "x": 0.24, "y": 0.38, "note": "与第7排之间有向北石阶"},
+    {"number": 7, "x": 0.22, "y": 0.38, "note": "石阶通往子弟小学"},
+    {"number": 8, "x": 0.20, "y": 0.38, "note": ""},
+    {"number": 9, "x": 0.18, "y": 0.38, "note": ""},
+    {"number": 10, "x": 0.15, "y": 0.38, "note": ""},
+    {"number": 11, "x": 0.10, "y": 0.38, "note": "山坡边缘，坎下10余米至兵工厂树林"}
+  ],
+  "features": [
+    {"name": "公共水龙头", "type": "facility", "position": "每排巷子尽头", "note": "铁皮桶排队"},
+    {"name": "公共厕所", "type": "facility", "position": "每排巷子尽头", "note": "砖结构"},
+    {"name": "青石板巷", "type": "path", "position": "每排房前", "note": "雨后泛青光"},
+    {"name": "煤炉", "type": "facility", "position": "每家门口", "note": "清晨烟雾弥漫"},
+    {"name": "槐树", "type": "plant", "position": "第4排门口", "note": "六月开花"}
+  ],
+  "key_residence": {
+    "row": 4,
+    "family": "米南生家",
+    "members": [
+      {"name": "米南生", "role": "父亲", "occupation": "车间书记（原教师）"},
+      {"name": "叶秀兰", "role": "母亲", "occupation": "子弟小学语文老师"},
+      {"name": "米丰", "role": "主角", "age": 6},
+      {"name": "米旺", "role": "弟弟", "age": 4}
+    ]
+  },
+  "daily_rhythm": [
+    {"time": "06:00", "event": "广播《东方红》"},
+    {"time": "06:00-06:30", "event": "各家生炉子"},
+    {"time": "06:30-07:00", "event": "水龙头排队"},
+    {"time": "07:00", "event": "米丰出门上学"},
+    {"time": "17:00", "event": "傍晚生炉子/洗菜"},
+    {"time": "19:00", "event": "父亲归家"}
+  ],
+  "connections": [
+    {"to": "子弟小学", "method": "步行", "time": "约5分钟", "via": "向西→第6-7排间石阶→北上"},
+    {"to": "菜市场", "method": "步行", "time": "约3分钟", "via": "经西厂门上山"},
+    {"to": "主公路", "method": "步行", "time": "约1分钟"}
+  ],
+  "fog_of_war": []
+}

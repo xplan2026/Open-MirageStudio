@@ -1,0 +1,22 @@
+{
+  "name": "二虎 (Erhu)",
+  "created_at": "2026-07-17",
+  "regenerated_at": "2026-08-21T04:30:00+08:00",
+  "main_image": "erhu_front_tibet_test.jpg",
+  "reference_image": "erhu_left_15_tibet.jpg",
+  "prompt_template": "一位西藏男性民谣/独立音乐人，约30岁出头，国字脸，面部轮廓分明，颧骨略高，肤色为高原日晒的古铜色，浓眉大眼，眼神坚毅而温暖，鼻梁挺直，嘴唇略厚，下颌硬朗，黑色利落短发（藏式风格），身穿藏式风格服装（藏袍/氆氇围巾/藏式衬衫），搭配绿松石、天珠等藏式配饰，气质：高原民族的粗犷、质朴、温暖，背景为雪山、草原、经幡或高原自然光，写实摄影风格，高清，8K。",
+  "variants": [
+    { "angle": "front", "file": "erhu_front_tibet_test.jpg", "desc": "正面特写，直视镜头，眼神坚毅温暖" },
+    { "angle": "left_15", "file": "erhu_left_15_tibet.jpg", "desc": "参考图：微左侧角度，高原阳光洒在侧脸" },
+    { "angle": "right_15", "file": "erhu_right_15_tibet.jpg", "desc": "微右侧15度，右侧脸转向镜头，神态与参考图一致" },
+    { "angle": "front_half", "file": "erhu_front_half_tibet.jpg", "desc": "正面半身，怀抱木吉他，姿态放松自然" },
+    { "angle": "eyes_closed", "file": "erhu_eyes_closed_tibet.jpg", "desc": "双眼轻闭，微微仰头，沉醉微笑，高原阳光洒在脸上（待生成）" }
+  ],
+  "video_prompts": {
+    "basic_sing": "人物正面站立，轻微晃动身体，嘴巴微动唱歌，镜头静止，写实风格",
+    "slow_turn": "人物缓缓转头看向远方，眼神深邃，镜头缓慢推进",
+    "closeup": "人物闭眼深情演唱，镜头缓慢推进特写，情感饱满",
+    "guitar": "人物弹吉他，身体随节奏轻微晃动，自然光线",
+    "side_profile": "人物侧面轮廓，微微低头沉思，缓慢转头面向镜头"
+  }
+}

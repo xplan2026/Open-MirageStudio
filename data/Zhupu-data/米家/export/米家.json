@@ -1,0 +1,547 @@
+{
+  "family_name": "米家",
+  "created_at": "2026-07-26T16:42:27.967Z",
+  "updated_at": "2026-07-27T00:00:00.000Z",
+  "description": "四川潼南米氏家族，祖籍潼南县大佛乡，后迁居江城（重庆）。始祖米福云，配徐氏、继配李维贞。历四代，以知识代际传递为主线。",
+  "culture": {
+    "motto": "踏实致远，真知不惑。不传不信之言，不做不实之事。",
+    "emblem": "",
+    "origin": "",
+    "notes": ""
+  },
+  "generation_names": {
+    "1": "一世",
+    "2": "二世",
+    "3": "三世",
+    "4": "四世"
+  },
+  "members": {
+    "member_001": {
+      "id": "member_001",
+      "name": "米福云",
+      "style_name": "",
+      "generation": 1,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1914",
+      "death": "2009",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_002",
+        "member_003"
+      ],
+      "children": [
+        "member_004",
+        "member_006",
+        "member_008",
+        "member_010",
+        "member_012",
+        "member_014"
+      ],
+      "achievements": [],
+      "notes": "四川潼南米氏一世祖。2009年去世，享年95岁。原配徐氏（生米南生），1950年续弦李维贞（时年18岁），育有五子女。"
+    },
+    "member_002": {
+      "id": "member_002",
+      "name": "徐氏",
+      "style_name": "",
+      "generation": 1,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_001"
+      ],
+      "children": [
+        "member_004"
+      ],
+      "achievements": [],
+      "notes": "米福云原配，米南生生母。生平不详，疑早年离世或离异。"
+    },
+    "member_003": {
+      "id": "member_003",
+      "name": "李维贞",
+      "style_name": "",
+      "generation": 1,
+      "gender": "女",
+      "avatar": "",
+      "birth": "1932",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_001"
+      ],
+      "children": [
+        "member_006",
+        "member_008",
+        "member_010",
+        "member_012",
+        "member_014"
+      ],
+      "achievements": [],
+      "notes": "米福云续弦，米南生继母。1950年18岁时与米福云在江城结婚。12岁即进入江城纸厂工作，勤劳坚韧。育有三女二子。"
+    },
+    "member_004": {
+      "id": "member_004",
+      "name": "米南生",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1943-05",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_002",
+      "spouse": [
+        "member_005"
+      ],
+      "children": [
+        "member_016",
+        "member_018"
+      ],
+      "achievements": [
+        {
+          "type": "军功",
+          "title": "八年云南军旅",
+          "year": "1961-1969",
+          "detail": "在云南服役八年，磨出沉稳气质"
+        },
+        {
+          "type": "教育",
+          "title": "英语教师",
+          "year": "1972",
+          "detail": "带了一届学生，终生被学生爱戴"
+        },
+        {
+          "type": "官职",
+          "title": "储运处处长",
+          "year": "不详",
+          "detail": "担任国企储运处处长至退休"
+        }
+      ],
+      "notes": "米福云长子（徐氏所出）。四川潼南县大佛乡人。1961-1969云南当兵(8年)→转业→教师进修学校→子弟中学英语教师→教育科科长→6车间书记→储运处处长。2003年退休。尊称：米老师/米书记/米老哥。性格稳健沉默，喜用提问引导他人。"
+    },
+    "member_005": {
+      "id": "member_005",
+      "name": "杨常玉",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "1947-10",
+      "death": "2022-04",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_004"
+      ],
+      "children": [
+        "member_016",
+        "member_018"
+      ],
+      "achievements": [],
+      "notes": "米南生之妻。农业户口，务农持家。勤劳善良正直，绝不愿亏欠别人。口头禅：「××说的，还能有假？」。2022年4月买菜上台阶摔倒，脑干脱离脊柱，享年74岁。知识态度：从书→口传→电视→微信群的演变。"
+    },
+    "member_006": {
+      "id": "member_006",
+      "name": "米南荷",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_003",
+      "spouse": [
+        "member_007"
+      ],
+      "children": [
+        "member_019"
+      ],
+      "achievements": [],
+      "notes": "米福云与李维贞之长女，米南生大妹。配偶：周长宏。"
+    },
+    "member_007": {
+      "id": "member_007",
+      "name": "周长宏",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_006"
+      ],
+      "children": [
+        "member_019"
+      ],
+      "achievements": [],
+      "notes": "米南荷之夫。"
+    },
+    "member_008": {
+      "id": "member_008",
+      "name": "米南华",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_003",
+      "spouse": [
+        "member_009"
+      ],
+      "children": [
+        "member_020"
+      ],
+      "achievements": [],
+      "notes": "米福云与李维贞之长男（合计行二），米南生大弟。配偶：关丽。"
+    },
+    "member_009": {
+      "id": "member_009",
+      "name": "关丽",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_008"
+      ],
+      "children": [
+        "member_020"
+      ],
+      "achievements": [],
+      "notes": "米南华之妻。"
+    },
+    "member_010": {
+      "id": "member_010",
+      "name": "米南珍",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_003",
+      "spouse": [
+        "member_011"
+      ],
+      "children": [
+        "member_021"
+      ],
+      "achievements": [],
+      "notes": "米福云与李维贞之次女（合计行三），米南生二妹。配偶：丁文辉。"
+    },
+    "member_011": {
+      "id": "member_011",
+      "name": "丁文辉",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_010"
+      ],
+      "children": [
+        "member_021"
+      ],
+      "achievements": [],
+      "notes": "米南珍之夫。"
+    },
+    "member_012": {
+      "id": "member_012",
+      "name": "米南发",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_003",
+      "spouse": [
+        "member_013"
+      ],
+      "children": [
+        "member_022"
+      ],
+      "achievements": [],
+      "notes": "米福云与李维贞之次男（合计行四），米南生二弟。配偶：陈文蓉。"
+    },
+    "member_013": {
+      "id": "member_013",
+      "name": "陈文蓉",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_012"
+      ],
+      "children": [
+        "member_022"
+      ],
+      "achievements": [],
+      "notes": "米南发之妻。"
+    },
+    "member_014": {
+      "id": "member_014",
+      "name": "米南芝",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_003",
+      "spouse": [
+        "member_015"
+      ],
+      "children": [
+        "member_023"
+      ],
+      "achievements": [],
+      "notes": "米福云与李维贞之三女（合计行五），米南生小妹。配偶：杨昌海。"
+    },
+    "member_015": {
+      "id": "member_015",
+      "name": "杨昌海",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_014"
+      ],
+      "children": [
+        "member_023"
+      ],
+      "achievements": [],
+      "notes": "米南芝之夫。"
+    },
+    "member_016": {
+      "id": "member_016",
+      "name": "米丰",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1973-02",
+      "death": "",
+      "father": "member_004",
+      "mother": "member_005",
+      "spouse": [
+        "member_017"
+      ],
+      "children": [
+        "member_024",
+        "member_025"
+      ],
+      "achievements": [
+        {
+          "type": "军功",
+          "title": "海军气象兵",
+          "year": "1993-1997",
+          "detail": "北海舰队气象兵服役四年"
+        },
+        {
+          "type": "著作",
+          "title": "《幻觉》",
+          "year": "2023",
+          "detail": "-"
+        }
+      ],
+      "notes": "米南生与杨常玉之长子，三世。主角/叙述者，1973年2月出生于江城。厂子弟小学→15中→修车学徒(1991-1993)→海军北海舰队气象兵(1993-1997)→练歌房→国企→开公司→青岛饭店→汽车行业→网约车/直销/编程/自媒体。人称波浪人生，与父亲直线人生对照。兴趣爱好：足球(三级裁判证)、围棋、国画、麻将/长牌。核心立意：知识幻觉的觉醒。"
+    },
+    "member_017": {
+      "id": "member_017",
+      "name": "何妮",
+      "style_name": "",
+      "generation": 3,
+      "gender": "女",
+      "avatar": "",
+      "birth": "1970",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": [
+        "member_016"
+      ],
+      "children": [
+        "member_024",
+        "member_025"
+      ],
+      "achievements": [],
+      "notes": "米丰之妻，1970年生，比米丰大3岁，江城人。大专(自考)。1998年与米丰一起开练歌房→1999年结婚→青岛巨亏时沉默陪伴→2020年做直销→共度疫情。知识态度：信任百度百科、微信群，与婆婆杨常玉一脉相承。育有一女一子。"
+    },
+    "member_018": {
+      "id": "member_018",
+      "name": "米旺",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1975-05",
+      "death": "",
+      "father": "member_004",
+      "mother": "member_005",
+      "spouse": [],
+      "children": [],
+      "achievements": [
+        {
+          "type": "荣誉",
+          "title": "古钱币收藏家",
+          "year": "2025",
+          "detail": "系统收藏，圈内小有名气"
+        },
+        {
+          "type": "荣誉",
+          "title": "按摩/中医考证",
+          "year": "2018",
+          "detail": "-"
+        }
+      ],
+      "notes": "米南生与杨常玉之次子，三世。米丰之弟，1975年5月生，比米丰小2岁。厂子弟小学→厂子弟中学→22中职高(因打架被开除)→厂技校。1993-1997与米丰同期入伍(四年最亲密时光)→退役后分配皮鞋厂→2010年结婚→2016年离婚(女方不愿生育)→2017年内退→照顾父亲。兴趣爱好：古钱币(2025年起系统收藏，圈内小有名气)、按摩/中医(2018年考证)。核心对照：米丰(主动探索者) vs 米旺(直接拿来者)。"
+    },
+    "member_019": {
+      "id": "member_019",
+      "name": "周霞",
+      "style_name": "",
+      "generation": 3,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_007",
+      "mother": "member_006",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米南荷与周长宏之女，三世。"
+    },
+    "member_020": {
+      "id": "member_020",
+      "name": "米睛",
+      "style_name": "",
+      "generation": 3,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_008",
+      "mother": "member_009",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米南华与关丽之女，三世。"
+    },
+    "member_021": {
+      "id": "member_021",
+      "name": "丁玉",
+      "style_name": "",
+      "generation": 3,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_011",
+      "mother": "member_010",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米南珍与丁文辉之女，三世。"
+    },
+    "member_022": {
+      "id": "member_022",
+      "name": "米靖",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_012",
+      "mother": "member_013",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米南发与陈文蓉之子，三世。"
+    },
+    "member_023": {
+      "id": "member_023",
+      "name": "杨真真",
+      "style_name": "",
+      "generation": 3,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_015",
+      "mother": "member_014",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米南芝与杨昌海之女，三世。"
+    },
+    "member_024": {
+      "id": "member_024",
+      "name": "女儿",
+      "style_name": "",
+      "generation": 4,
+      "gender": "女",
+      "avatar": "",
+      "birth": "2001",
+      "death": "",
+      "father": "member_016",
+      "mother": "member_017",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米丰与何妮之女，2001年生。代际知识传递的观察对象。"
+    },
+    "member_025": {
+      "id": "member_025",
+      "name": "儿子",
+      "style_name": "",
+      "generation": 4,
+      "gender": "男",
+      "avatar": "",
+      "birth": "2008",
+      "death": "",
+      "father": "member_016",
+      "mother": "member_017",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米丰与何妮之子，2008年生。代际知识传递的观察对象。"
+    }
+  }
+}

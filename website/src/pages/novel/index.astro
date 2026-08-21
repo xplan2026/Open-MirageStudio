@@ -1,0 +1,39 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getNovel } from '../../lib/data';
+
+const novel = getNovel();
+---
+
+<Layout title="小说 · 幻觉">
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-2">幻觉</h1>
+    <p class="text-muted mb-10">横跨百年的家族史诗</p>
+
+    {
+      !novel && (
+        <p class="text-muted italic">小说内容即将上线。</p>
+      )
+    }
+
+    {
+      novel?.volumes.map(volume => (
+        <section class="mb-10">
+          <h2 class="text-lg font-bold mb-4 text-ink-light">{volume.title}</h2>
+          <div class="space-y-2">
+            {volume.chapters.map(ch => (
+              <a
+                href={`/novel/${ch.slug}`}
+                class="flex items-center gap-3 py-3 px-4 border border-paper-dark rounded hover:border-accent/40 hover:shadow-sm transition-all group"
+              >
+                <span class="text-xs text-muted w-8 shrink-0">第{ch.number}章</span>
+                <span class="group-hover:text-accent transition-colors">{ch.title}</span>
+                <span class="text-xs text-muted ml-auto">{Math.round(ch.wordCount / 1000)}k 字</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</Layout>

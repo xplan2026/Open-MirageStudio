@@ -1,0 +1,36 @@
+---
+import Nav from '../components/Nav.astro';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{Astro.props.title ? `${Astro.props.title} · 幻觉` : '幻觉 — 跨媒介叙事 IP'}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Nav currentPath={Astro.url.pathname} />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <footer class="text-center text-sm text-muted py-8 border-t border-paper-dark">
+      <p>© 2026 幻觉 IP. Powered by Agent Builder.</p>
+    </footer>
+  </body>
+</html>

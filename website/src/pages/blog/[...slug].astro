@@ -1,0 +1,91 @@
+---
+import { marked } from 'marked';
+import Layout from '../../layouts/Layout.astro';
+import { getBlogPost, getBlogPosts } from '../../lib/data';
+
+// 配置 marked 渲染器
+marked.setOptions({
+  gfm: true,
+  breaks: true,
+});
+
+export function getStaticPaths() {
+  const posts = getBlogPosts();
+  return posts.map(post => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const post = getBlogPost(slug!);
+
+if (!post) {
+  return Astro.redirect('/blog');
+}
+
+const htmlContent = marked.parse(post.content) as string;
+---
+
+<Layout title={post.title} currentPath="/blog">
+  <main class="max-w-3xl mx-auto px-6 py-12">
+    <!-- 返回链接 -->
+    <a
+      href="/blog"
+      class="inline-flex items-center gap-1 text-sm text-muted hover:text-ink transition-colors mb-8"
+    >
+      <span>←</span>
+      <span>博客列表</span>
+    </a>
+
+    <article>
+      <!-- 文章头部 -->
+      <header class="mb-10 pb-8 border-b border-paper-dark">
+        <h1 class="text-3xl font-bold text-ink mb-4 leading-snug">
+          {post.title}
+        </h1>
+        <div class="flex flex-wrap items-center gap-3 text-sm text-muted">
+          <time datetime={post.date}>{post.date}</time>
+          {post.tags.length > 0 && (
+            <div class="flex gap-2">
+              {post.tags.map(tag => (
+                <span class="text-xs px-2 py-0.5 bg-paper-dark rounded-full text-muted">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <!-- 文章正文 -->
+      <div
+        class="blog-content prose prose-slate max-w-none
+          prose-headings:text-ink prose-headings:font-bold
+          prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+          prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+          prose-p:text-muted prose-p:leading-relaxed prose-p:mb-4
+          prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+          prose-code:text-sm prose-code:bg-paper-dark prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+          prose-pre:bg-paper-dark prose-pre:border prose-pre:border-paper-dark
+          prose-strong:text-ink prose-strong:font-semibold
+          prose-li:text-muted
+          prose-hr:border-paper-dark
+          prose-blockquote:border-accent prose-blockquote:text-muted
+          prose-table:border-paper-dark prose-th:text-ink prose-td:text-muted"
+      >
+        <Fragment set:html={htmlContent} />
+      </div>
+    </article>
+
+    <!-- 底部分隔 -->
+    <hr class="mt-12 mb-8 border-paper-dark" />
+
+    <a
+      href="/blog"
+      class="inline-flex items-center gap-1 text-sm text-muted hover:text-ink transition-colors"
+    >
+      <span>←</span>
+      <span>返回博客列表</span>
+    </a>
+  </main>
+</Layout>

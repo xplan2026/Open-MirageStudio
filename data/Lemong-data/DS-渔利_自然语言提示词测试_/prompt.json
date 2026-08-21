@@ -1,0 +1,22 @@
+{
+  "title": "DS-渔利（自然语言提示词测试）",
+  "style": "",
+  "created_at": "2026-07-19T05:42:48.953Z",
+  "music_prompt": {
+    "caption_en": "Chinese folk ballad with classical poetry feel. Warm, gritty nasal male vocal. Erhu and acoustic guitar, slow to intense to calm.",
+    "instruments": "acoustic guitar, erhu, dizi (bamboo flute), light percussion (wood block, finger cymbals), soft bass",
+    "mood": "melancholic, narrative, reflective, then intense, finally empty",
+    "vocal_language": "zh",
+    "vocal_style": "Warm, gritty, nasal male vocal with a natural, unpolished delivery. Eagles-like warm, gritty, nasal male voice.",
+    "duration": 180,
+    "time_signature": "4/4",
+    "audio_format": "mp3",
+    "thinking": true,
+    "special_notes": "CRITICAL: Chinese (Mandarin) song, no English lyrics. Vocals should be rough and heartfelt, with a slightly nasal quality reminiscent of Eagles' vocal style."
+  },
+  "lyrics": "[A段]\n一篙春水绿，半竿晓风轻\n垂纶者坐看浮标沉，饵香暗送\n千竿齐发处，涟漪碎月明\n谁见那铁鳞银甲，争逐在浊浪中\n\n[桥接段]\n说是江湖规矩，不过饵与钩\n吞了饵的鱼，便忘了自由\n夜半铃声急，订单如潮涌\n渔翁笑捻须，又放一长线\n\n[副歌]\n我们都是那网中的鱼啊\n咬住饵就甩不脱钩\n渔翁在岸上数着铜板\n我们在这头，拼着血肉\n\n[B段]\n晨星未落时，已把竿来候\n暮色苍茫里，仍向深水游\n一程一程算，分分厘厘扣\n渔网越收越紧，鱼鳞片片落\n\n[副歌]\n我们都是那网中的鱼啊\n咬住饵就甩不脱钩\n渔翁在岸上数着铜板\n我们在这头，拼着血肉\n\n[C段]\n潮退时，岸上只余空篓\n浮标沉，再无人问缘由\n一江寒水向东流\n渔翁收竿去，月如钩",
+  "audio": {
+    "file": "DS-渔利_自然语言提示词测试_.mp3",
+    "file_size": 3696813
+  }
+}

@@ -1,0 +1,313 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FamilyTree from '../../components/FamilyTree.astro';
+import { getFamilies, getFamily, getFamilyMember, buildFamilyTree } from '../../lib/data';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const families = getFamilies();
+  const paths: { params: { slug: string } }[] = [];
+  for (const f of families) {
+    paths.push({ params: { slug: f.id } });
+    const fam = getFamily(f.id);
+    if (fam) {
+      for (const mid of Object.keys(fam.members)) {
+        paths.push({ params: { slug: `${f.id}/${mid}` } });
+      }
+    }
+  }
+  return paths;
+};
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/family');
+
+const parts = slug.split('/');
+const familyId = parts[0]!;
+const memberId: string | undefined = parts[1];
+
+const family = getFamily(familyId);
+const allFamilies = getFamilies();
+const familyMeta = allFamilies.find(f => f.id === familyId);
+if (!family) return Astro.redirect('/family');
+
+// ---- 成员 Profile ----
+let mp: any = null;
+if (memberId) {
+  const m = getFamilyMember(familyId, memberId);
+  if (!m) return Astro.redirect(`/family/${familyId}`);
+  mp = {
+    member: m,
+    father: m.father ? (family.members[m.father] ?? null) : null,
+    mother: m.mother ? (family.members[m.mother] ?? null) : null,
+    spouses: m.spouse.map((sid: string) => family.members[sid]).filter(Boolean),
+    children: m.children.map((cid: string) => family.members[cid]).filter(Boolean),
+    birthDeath: (() => {
+      if (m.birth && m.death) return `${m.birth} — ${m.death}`;
+      if (m.birth) return `${m.birth} 生`;
+      if (m.death) return `${m.death} 卒`;
+      return null;
+    })(),
+    genLabel: family.generation_names?.[String(m.generation)] || `${m.generation}世`,
+    fatherName: m.father ? (family.members[m.father]?.name ?? m.father) : (m.father || ''),
+    motherName: m.mother ? (family.members[m.mother]?.name ?? m.mother) : (m.mother || ''),
+    hasFather: !!(m.father && family.members[m.father]),
+    hasMother: !!(m.mother && family.members[m.mother]),
+    fatherRaw: m.father && !family.members[m.father] ? m.father : null,
+    motherRaw: m.mother && !family.members[m.mother] ? m.mother : null,
+  };
+  // 配偶处理：简化数据
+  mp.spouseList = mp.spouses.map((s: any) => ({
+    id: s.id,
+    name: s.name,
+    label: s.gender === '女' ? '妻' : '夫',
+    birth: s.birth,
+    death: s.death,
+    birthDeath: (() => {
+      if (s.birth && s.death) return `${s.birth} - ${s.death}`;
+      if (s.birth) return s.birth;
+      return '';
+    })(),
+    originFamily: s.originFamily || '',
+    originFamilyShort: s.originFamily ? s.originFamily.replace('家族', '') : '',
+  }));
+  // 子女
+  mp.childList = mp.children.map((c: any) => ({
+    id: c.id,
+    name: c.name,
+    birth: c.birth || '',
+  }));
+  // 成就
+  mp.hasAchievements = m.achievements && m.achievements.length > 0;
+}
+
+// ---- 家族树 ----
+const familyTree = buildFamilyTree(familyId);
+
+// ---- 成员名录（预计算世代分组）----
+const memberList = Array.from(Object.values(family.members)) as any[];
+memberList.sort((a: any, b: any) => a.generation - b.generation);
+const genGroups: { gen: number; label: string; members: any[] }[] = [];
+const genMap = new Map<number, any[]>();
+for (const m of memberList) {
+  if (!genMap.has(m.generation)) genMap.set(m.generation, []);
+  genMap.get(m.generation)!.push(m);
+}
+for (const [gen, members] of Array.from(genMap.entries()).sort(([a], [b]) => a - b)) {
+  genGroups.push({
+    gen,
+    label: family.generation_names?.[String(gen)] || `${gen}世`,
+    members: members.map((m: any) => ({
+      id: m.id,
+      name: m.name,
+      gender: m.gender,
+      styleName: m.styleName || '',
+      birth: m.birth || '',
+      death: m.death || '',
+      birthDeath: (() => {
+        if (m.birth && m.death) return `${m.birth} - ${m.death}`;
+        if (m.birth) return m.birth;
+        return '';
+      })(),
+      notesShort: m.notes ? m.notes.slice(0, 60) + (m.notes.length > 60 ? '...' : '') : '',
+      hasNotes: !!m.notes,
+    })),
+  });
+}
+
+const pageTitle = mp
+  ? `${mp.member.name} · ${family.family_name}`
+  : `${family.family_name} · 幻觉`;
+---
+
+<Layout title={pageTitle}>
+  {mp ? (
+    <div class="max-w-3xl mx-auto px-6 py-12">
+      <div class="mb-8 text-sm text-muted space-x-2">
+        <a href="/family" class="hover:text-ink transition-colors">家族列表</a>
+        <span>/</span>
+        <a href={`/family/${familyId}`} class="hover:text-ink transition-colors">{family.family_name}</a>
+        <span>/</span>
+        <span class="text-ink">{mp.member.name}</span>
+      </div>
+
+      <div class="mb-8">
+        <div class="flex items-center gap-3 mb-2">
+          <h1 class="text-3xl font-bold">{mp.member.name}</h1>
+          <span class="text-lg text-muted">{mp.member.gender === '男' ? '♂' : '♀'}</span>
+        </div>
+        {mp.member.styleName && <p class="text-muted">字 {mp.member.styleName}</p>}
+        {mp.birthDeath && <p class="text-sm text-muted mt-1">{mp.birthDeath}</p>}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div class="p-4 border border-paper-dark rounded-lg">
+          <h3 class="text-xs text-muted uppercase tracking-wide mb-2">世代</h3>
+          <p class="font-medium">{mp.genLabel}</p>
+        </div>
+        <div class="p-4 border border-paper-dark rounded-lg">
+          <h3 class="text-xs text-muted uppercase tracking-wide mb-2">家族</h3>
+          <a href={`/family/${familyId}`} class="font-medium text-accent hover:underline">{family.family_name}</a>
+        </div>
+      </div>
+
+      <section class="mb-8">
+        <h2 class="text-lg font-bold mb-4">亲缘关系</h2>
+        <div class="space-y-3">
+          {mp.hasFather && (
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-muted w-12 shrink-0">父</span>
+              <a href={`/family/${familyId}/${mp.father.id}`} class="text-accent hover:underline">{mp.father.name}</a>
+              {mp.father.birth && <span class="text-xs text-muted">{mp.father.birth}{mp.father.death ? ` - ${mp.father.death}` : ''}</span>}
+            </div>
+          )}
+          {mp.fatherRaw && (
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-muted w-12 shrink-0">父</span>
+              <span class="text-muted">{mp.fatherRaw}</span>
+            </div>
+          )}
+
+          {mp.hasMother && (
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-muted w-12 shrink-0">母</span>
+              <a href={`/family/${familyId}/${mp.mother.id}`} class="text-accent hover:underline">{mp.mother.name}</a>
+              {mp.mother.birth && <span class="text-xs text-muted">{mp.mother.birth}{mp.mother.death ? ` - ${mp.mother.death}` : ''}</span>}
+            </div>
+          )}
+          {mp.motherRaw && (
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-muted w-12 shrink-0">母</span>
+              <span class="text-muted">{mp.motherRaw}</span>
+            </div>
+          )}
+
+          {mp.spouseList.map((sp: any) => (
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-muted w-12 shrink-0">{sp.label}</span>
+              <a href={`/family/${familyId}/${sp.id}`} class="text-accent hover:underline">{sp.name}</a>
+              {sp.birthDeath && <span class="text-xs text-muted">{sp.birthDeath}</span>}
+              {sp.originFamily && (
+                <>
+                  <span class="text-muted text-xs">|</span>
+                  <a href={`/family/${sp.originFamily}`} class="text-xs text-accent/70 hover:underline">
+                    查看{sp.originFamilyShort}族谱 →
+                  </a>
+                </>
+              )}
+            </div>
+          ))}
+
+          {mp.childList.length > 0 && (
+            <div class="flex items-start gap-3 text-sm">
+              <span class="text-muted w-12 shrink-0 pt-0.5">子女</span>
+              <div class="flex flex-wrap gap-2">
+                {mp.childList.map((ch: any) => (
+                  <a href={`/family/${familyId}/${ch.id}`} class="px-2 py-1 bg-paper-dark/50 rounded text-accent hover:underline text-xs">
+                    {ch.name}{ch.birth ? ` (${ch.birth})` : ''}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {mp.hasAchievements && (
+        <section class="mb-8">
+          <h2 class="text-lg font-bold mb-4">事迹</h2>
+          <div class="space-y-3">
+            {mp.member.achievements.map((ach: any) => (
+              <div class="p-3 border border-paper-dark rounded-lg flex gap-3">
+                <span class="text-xs px-2 py-0.5 bg-accent/10 text-accent rounded shrink-0 h-fit">{ach.type}</span>
+                <div>
+                  <p class="text-sm font-medium">{ach.title}</p>
+                  {ach.year && <p class="text-xs text-muted">{ach.year}</p>}
+                  {ach.detail && ach.detail !== '-' && <p class="text-xs text-muted mt-0.5">{ach.detail}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {mp.member.notes && (
+        <section class="mb-8">
+          <h2 class="text-lg font-bold mb-4">传记</h2>
+          <div class="p-4 bg-paper-dark/30 rounded-lg text-sm leading-relaxed text-ink-light">
+            {mp.member.notes}
+          </div>
+        </section>
+      )}
+
+      <div class="mt-8 pt-6 border-t border-paper-dark">
+        <a href={`/family/${familyId}`} class="text-sm text-accent hover:underline">← 返回{family.family_name}族谱</a>
+      </div>
+    </div>
+  ) : (
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <div class="mb-8 text-sm text-muted">
+        <a href="/family" class="hover:text-ink transition-colors">← 返回家族列表</a>
+      </div>
+
+      <h1 class="text-3xl font-bold mb-2">{family.family_name}</h1>
+      <p class="text-muted mb-2">{family.description}</p>
+
+      {family.culture?.origin && (
+        <p class="text-sm text-muted mb-2">渊源：{family.culture.origin}</p>
+      )}
+      {family.culture?.motto && (
+        <blockquote class="my-6 italic text-lg text-ink-light border-l-4 border-accent pl-4">
+          {family.culture.motto}
+        </blockquote>
+      )}
+
+      <div class="flex gap-6 text-sm text-muted mb-8">
+        <span>{familyMeta?.memberCount} 位成员</span>
+        <span>{familyMeta?.generationCount} 代传承</span>
+      </div>
+
+      {familyTree ? (
+        <div class="mb-8">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-bold">家族关系树</h2>
+            <span class="text-xs text-muted">点击节点查看详情 · 配偶有下划线可跳转族谱</span>
+          </div>
+          <FamilyTree familyId={familyId} treeData={familyTree.root} />
+        </div>
+      ) : (
+        <p class="p-8 text-center text-muted border border-paper-dark rounded-lg">暂无族谱树数据</p>
+      )}
+
+      <section class="mt-10">
+        <h2 class="text-lg font-bold mb-4">成员名录</h2>
+        {genGroups.map(gg => (
+          <div class="mb-6">
+            <h3 class="text-sm font-bold text-muted mb-3">
+              {gg.label}
+              <span class="text-xs text-muted font-normal ml-2">{gg.members.length} 人</span>
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {gg.members.map((m: any) => (
+                <a
+                  href={`/family/${familyId}/${m.id}`}
+                  class="group block p-3 border border-paper-dark rounded-lg hover:border-accent/40 hover:shadow-sm transition-all"
+                >
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="font-bold text-sm group-hover:text-accent transition-colors">{m.name}</span>
+                    <span class="text-xs text-muted">{m.gender === '男' ? '♂' : '♀'}</span>
+                    {m.styleName && <span class="text-xs text-muted">字{m.styleName}</span>}
+                  </div>
+                  <div class="text-xs text-muted">
+                    {m.birthDeath && <span>{m.birthDeath}</span>}
+                    {m.hasNotes && <p class="line-clamp-2 mt-1">{m.notesShort}</p>}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
+    </div>
+  )}
+</Layout>

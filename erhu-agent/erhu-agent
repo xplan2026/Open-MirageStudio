@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# ============================================================
+# Erhu Agent CLI — 二虎 AI 数字人歌手命令行入口
+# ============================================================
+#
+# 用法（在项目根目录 /workspace/ 下执行）:
+#   ./erhu-agent/erhu-agent help              # 查看帮助
+#   ./erhu-agent/erhu-agent scan              # 扫描计划
+#   ./erhu-agent/erhu-agent produce           # 一键生成
+#   ./erhu-agent/erhu-agent compose <作品名>   # 生成歌曲
+#   ./erhu-agent/erhu-agent visualize <作品名> # 生成图片
+#   ./erhu-agent/erhu-agent render <作品名>    # 合成视频
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPTS_DIR="$SCRIPT_DIR/scripts"
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+show_help() {
+  cat << EOF
+${CYAN}🎸 二虎 (Erhu) — AI 数字人歌手 CLI${NC}
+
+${YELLOW}用法:${NC} ./erhu-agent/erhu-agent <命令> [参数...]
+
+${YELLOW}命令:${NC}
+
+  ${GREEN}help${NC}                    查看此帮助信息
+
+  ${GREEN}scan${NC}                    扫描未处理的作品计划
+
+  ${GREEN}produce${NC} [作品名]         一键全流程制作（扫描→作曲→生图→渲染）
+
+  ${GREEN}compose${NC} <作品名>         生成歌曲（调用 lemong-agent）
+
+  ${GREEN}visualize${NC} <作品名>       生成图片（百度文心一格）
+
+  ${GREEN}render${NC} <作品名>          合成 MV 视频（FFmpeg）
+
+${YELLOW}选项:${NC}
+  --dry-run    预览模式，不实际生成
+
+${YELLOW}示例:${NC}
+  ./erhu-agent/erhu-agent scan
+  ./erhu-agent/erhu-agent produce
+  ./erhu-agent/erhu-agent produce 归航109
+  ./erhu-agent/erhu-agent compose 归航109 --dry-run
+EOF
+}
+
+case "${1:-help}" in
+  help)
+    show_help
+    ;;
+  scan)
+    node "$SCRIPTS_DIR/scan.js" "${@:2}"
+    ;;
+  produce)
+    node "$SCRIPTS_DIR/produce.js" "${@:2}"
+    ;;
+  compose)
+    node "$SCRIPTS_DIR/compose.js" "${@:2}"
+    ;;
+  visualize)
+    node "$SCRIPTS_DIR/visualize.js" "${@:2}"
+    ;;
+  render)
+    node "$SCRIPTS_DIR/render.js" "${@:2}"
+    ;;
+  *)
+    echo -e "${RED}未知命令: $1${NC}"
+    show_help
+    exit 1
+    ;;
+esac

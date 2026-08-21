@@ -1,0 +1,87 @@
+{
+  "name": "《幻觉》世界",
+  "level": "L0",
+  "coordinate_system": "relative_2d",
+  "description": "江城地区。故事起于盘龙岗造纸厂，随米丰成长逐步向江城城区及更广阔的世界扩展。",
+  "regions": [
+    {
+      "name": "盘龙岗",
+      "level": "L2",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.35,
+        "y": 0.45
+      },
+      "file": "cities/盘龙岗.json",
+      "description": "嘉陵江北岸的工业生活区。造纸厂、家属区、子弟小学所在地。全书起点。"
+    },
+    {
+      "name": "嘉陵江",
+      "level": "L0",
+      "type": "natural",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "file": null,
+      "description": "长江支流，盘龙岗在江北岸。缆车从江边拉原料上山。"
+    },
+    {
+      "name": "盘龙岗山上区",
+      "level": "L1",
+      "unlocked_by": "ch01",
+      "coordinates": {
+        "x": 0.35,
+        "y": 0.12
+      },
+      "file": null,
+      "description": "从西厂门顺山势向上的区域：造纸一村、老干中心、电大、机械厂足球场、兵工厂等。"
+    }
+  ],
+  "water_bodies": [
+    {
+      "name": "嘉陵江",
+      "type": "river",
+      "flow": "west_to_east",
+      "across": [
+        0,
+        0.85,
+        1,
+        0.85
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "盘龙岗",
+      "to": "江城城区",
+      "method": "10路公交",
+      "time": "约30分钟",
+      "direction": "east"
+    },
+    {
+      "from": "盘龙岗",
+      "to": "嘉陵江",
+      "method": "步行",
+      "time": "约10分钟",
+      "direction": "south"
+    },
+    {
+      "from": "盘龙岗",
+      "to": "盘龙岗山上区",
+      "method": "步行上山",
+      "time": "约20分钟",
+      "direction": "north"
+    }
+  ],
+  "fog_of_war": [
+    "江城城区",
+    "李家坡",
+    "造纸二村",
+    "民主新村",
+    "嘉陵江对岸",
+    "上游沿岸",
+    "下游沿岸"
+  ]
+}

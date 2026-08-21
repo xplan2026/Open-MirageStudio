@@ -1,0 +1,83 @@
+{
+  "novel_title": "幻觉",
+  "total_volumes": 4,
+  "total_chapters_planned": 0,
+  "chapters_written": 4,
+  "current_chapter": 4,
+  "current_volume": 1,
+  "total_words": 17300,
+  "status": "drafting",
+  "structure_version": 3,
+  "created": "2026-07-20",
+  "last_updated": "2026-08-20",
+  "creation_mode": "multi-family-camera-switch",
+  "notes": "创作策略 v3：多家族镜头切换模式。卷一前 4 章试写完成（ch01 大佛乡的米家 / ch02 分家 / ch03 烟枪 / ch04 鸟笼与牌九，每章 4 镜头，时间对齐 1928/1930/1932/1938）。大纲已升级 V2 多线版（outline/volume-01-chapter-plan.md，五线时间轴 + 镜头序列 ch01-ch11，族谱时间接入规则：杨一 1916 生 / 何开华 1930 生 ch05 起接入）。全环节 LLM 经 scripts/llm-gateway.js 调用智谱免费模型（glm-4.7-flash 主 / glm-4-flash 备用 / DeepSeek 兜底）：plan 分镜规划 / draft 正文 / verify 一致性 / qa 质检 / review 审校，零 API 成本。v1 旧稿（10章）已移至 chapters/参考/ 仅作参考。",
+  "volumes": [
+    {
+      "id": 1,
+      "name": "潼南旧事",
+      "time_range": "1914-1961",
+      "core_character": "米福云 → 米南生",
+      "chapters": [
+        {
+          "no": 1,
+          "title": "大佛乡的米家",
+          "file": "chapters/volume-01/ch01-大佛乡的米家.md",
+          "time": "1928-03-15",
+          "mode": "camera-switch",
+          "lines": ["米家线", "于家线", "李家线", "社会关系线"],
+          "status": "draft"
+        },
+        {
+          "no": 2,
+          "title": "分家",
+          "file": "chapters/volume-01/ch02-分家.md",
+          "time": "1930-09-18",
+          "mode": "camera-switch",
+          "lines": ["米家线", "于家线", "李家线", "社会关系线"],
+          "status": "draft"
+        },
+        {
+          "no": 3,
+          "title": "烟枪",
+          "file": "chapters/volume-01/ch03-烟枪.md",
+          "time": "1932-10-05",
+          "mode": "camera-switch",
+          "lines": ["米家线", "于家线", "李家线", "社会关系线"],
+          "status": "draft"
+        },
+        {
+          "no": 4,
+          "title": "鸟笼与牌九",
+          "file": "chapters/volume-01/ch04-鸟笼与牌九.md",
+          "time": "1938-02-20",
+          "mode": "camera-switch",
+          "lines": ["米家线", "于家线", "李家线", "社会关系线"],
+          "status": "draft",
+          "generated_by": "llm-gateway (glm-4.7-flash)"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "子弟",
+      "time_range": "1961-1979",
+      "core_character": "米南生 → 米丰",
+      "chapters": []
+    },
+    {
+      "id": 3,
+      "name": "激荡",
+      "time_range": "1979-2009",
+      "core_character": "米丰",
+      "chapters": []
+    },
+    {
+      "id": 4,
+      "name": "幻觉",
+      "time_range": "2009-2023",
+      "core_character": "米丰",
+      "chapters": []
+    }
+  ]
+}

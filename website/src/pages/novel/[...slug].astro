@@ -1,0 +1,88 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getNovel } from '../../lib/data';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const novel = getNovel();
+  if (!novel) return [];
+  const paths: { params: { slug: string } }[] = [];
+  for (const vol of novel.volumes) {
+    for (const ch of vol.chapters) {
+      paths.push({ params: { slug: ch.slug } });
+    }
+  }
+  return paths;
+};
+
+const { slug } = Astro.params;
+const novel = getNovel();
+const chapter = novel?.volumes.flatMap(v => v.chapters).find(c => c.slug === slug);
+
+if (!chapter) {
+  return Astro.redirect('/novel');
+}
+
+// 找上一章/下一章
+const allChapters = novel!.volumes.flatMap(v => v.chapters);
+const currentIndex = allChapters.findIndex(c => c.slug === slug);
+const prevChapter = currentIndex > 0 ? allChapters[currentIndex - 1] : null;
+const nextChapter = currentIndex < allChapters.length - 1 ? allChapters[currentIndex + 1] : null;
+
+// 简单解析 Markdown 为 HTML（只处理标题和段落）
+function simpleMdToHtml(md: string): string {
+  return md
+    .split('\n')
+    .map(line => {
+      if (line.startsWith('# ')) return `<h1 class="text-2xl font-bold mb-6">${line.slice(2)}</h1>`;
+      if (line.startsWith('## ')) return `<h2 class="text-xl font-bold mt-8 mb-4">${line.slice(3)}</h2>`;
+      if (line.startsWith('### ')) return `<h3 class="text-lg font-bold mt-6 mb-3">${line.slice(4)}</h3>`;
+      if (line.trim() === '') return '';
+      return `<p class="mb-4 leading-relaxed">${line}</p>`;
+    })
+    .join('\n');
+}
+---
+
+<Layout title={`${chapter.title} · 幻觉`}>
+  <article class="max-w-2xl mx-auto px-6 py-12">
+    <div class="mb-8 text-sm text-muted">
+      <a href="/novel" class="hover:text-ink transition-colors">← 返回目录</a>
+      <span class="mx-2">·</span>
+      第{chapter.number}章
+    </div>
+
+    <div class="prose-custom" set:html={simpleMdToHtml(chapter.content)} />
+
+    <!-- 导航 -->
+    <div class="mt-12 pt-8 border-t border-paper-dark flex justify-between">
+      {
+        prevChapter ? (
+          <a href={`/novel/${prevChapter.slug}`} class="text-sm text-muted hover:text-ink transition-colors">
+            ← 第{prevChapter.number}章 {prevChapter.title}
+          </a>
+        ) : <span />
+      }
+      {
+        nextChapter ? (
+          <a href={`/novel/${nextChapter.slug}`} class="text-sm text-muted hover:text-ink transition-colors">
+            第{nextChapter.number}章 {nextChapter.title} →
+          </a>
+        ) : <span />
+      }
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .prose-custom p {
+    text-indent: 2em;
+    margin-bottom: 1em;
+    line-height: 1.9;
+    font-size: 1.05rem;
+  }
+  .prose-custom h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+</style>

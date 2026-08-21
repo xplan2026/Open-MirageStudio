@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="800" viewBox="0 0 1000 800">
+<rect width="1000" height="800" fill="#f8f9fa"/>
+<line x1="280" y1="288" x2="680" y2="288" stroke="#e67e22" stroke-width="4" stroke-dasharray="" opacity="1.0"/>
+<text x="470" y="256" font-family="sans-serif" font-size="12" fill="#e67e22" text-anchor="middle" font-weight="600">主公路</text>
+<rect x="550" y="320" width="230" height="384" fill="rgba(52, 152, 219, 0.12)" stroke="#2980b9" stroke-width="2" opacity="1.0"/>
+<text x="660" y="512" font-family="sans-serif" font-size="11" fill="#2980b9" text-anchor="middle" font-weight="600">厂区（顺山势而下）</text>
+<rect x="140" y="304" width="200" height="64" fill="rgba(231, 76, 60, 0.10)" stroke="#c0392b" stroke-width="2" opacity="1.0"/>
+<text x="240" y="288" font-family="sans-serif" font-size="11" fill="#c0392b" text-anchor="middle" font-weight="600">家属区（11排）</text>
+<rect x="0" y="720" width="1000" height="72" fill="rgba(52, 152, 219, 0.20)" stroke="#2980b9" stroke-width="1" opacity="0.8"/>
+<text x="500" y="752" font-family="sans-serif" font-size="13" fill="#2980b9" text-anchor="middle" font-weight="600">嘉陵江</text>
+<line x1="240" y1="320" x2="270" y2="192" stroke="#27ae60" stroke-width="2" stroke-dasharray="5,3" opacity="1.0"/>
+<text x="210" y="256" font-family="sans-serif" font-size="10" fill="#27ae60" text-anchor="middle" font-weight="600">石阶</text>
+<rect x="220" y="160" width="100" height="56" fill="rgba(46, 204, 113, 0.12)" stroke="#27ae60" stroke-width="2" opacity="1.0"/>
+<text x="270" y="152" font-family="sans-serif" font-size="11" fill="#27ae60" text-anchor="middle" font-weight="600">子弟小学</text>
+<rect x="100" y="40" width="320" height="200" fill="rgba(46, 204, 113, 0.06)" stroke="#1abc9c" stroke-width="1.5" opacity="0.6"/>
+<text x="260" y="32" font-family="sans-serif" font-size="12" fill="#1abc9c" text-anchor="middle" font-weight="600">盘龙岗山上区</text>
+<line x1="620" y1="320" x2="620" y2="704" stroke="#95a5a6" stroke-width="2" stroke-dasharray="5,3" opacity="1.0"/>
+<text x="580" y="512" font-family="sans-serif" font-size="10" fill="#7f8c8d" text-anchor="middle" font-weight="600">厂区大路</text>
+<line x1="646" y1="478" x2="650" y2="736" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="648" y="603" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约8分钟</text>
+<line x1="646" y1="478" x2="267" y2="448" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="456" y="459" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约6分钟</text>
+<line x1="646" y1="478" x2="684" y2="390" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="665" y="430" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约1分钟</text>
+<line x1="267" y1="448" x2="312" y2="377" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="289" y="408" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行上山 约3分钟</text>
+<line x1="646" y1="478" x2="543" y2="442" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="594" y="456" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行 约1分钟</text>
+<line x1="267" y1="448" x2="147" y2="194" stroke="#999" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+<text x="207" y="317" font-family="sans-serif" font-size="9" fill="#888" text-anchor="middle">步行上山 约15分钟</text>
+<text x="20" y="30" font-family="sans-serif" font-size="18" font-weight="bold" fill="#333">盘龙岗 (城市)</text>
+<circle cx="646" cy="478" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="646" y="505" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">厂门口</text>
+<text x="646" y="482" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="643" cy="444" r="18" fill="#f5a623" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="643" y="477" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">主公路</text>
+<text x="643" y="448" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L2</text>
+<circle cx="543" cy="442" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="543" y="469" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">10路公交站</text>
+<text x="543" y="446" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="321" cy="491" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="321" y="518" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">邮局</text>
+<text x="321" y="495" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="267" cy="448" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="267" y="475" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">西厂门</text>
+<text x="267" y="452" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="684" cy="390" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="684" y="417" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">食堂</text>
+<text x="684" y="394" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="647" cy="401" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="647" y="428" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">礼堂</text>
+<text x="647" y="405" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="542" cy="386" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="542" y="413" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">篮球场</text>
+<text x="542" y="390" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="477" cy="397" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="477" y="424" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">医院</text>
+<text x="477" y="401" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="397" cy="404" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="397" y="431" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">糖果店</text>
+<text x="397" y="408" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="209" cy="92" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="209" y="119" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">家属楼11排</text>
+<text x="209" y="96" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="359" cy="214" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="359" y="241" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">子弟小学</text>
+<text x="359" y="218" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="312" cy="377" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="312" y="404" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">菜市场</text>
+<text x="312" y="381" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="267" cy="400" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="267" y="427" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">造纸一村</text>
+<text x="267" y="404" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="263" cy="200" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="263" y="227" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">老干中心</text>
+<text x="263" y="204" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="162" cy="272" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="162" y="299" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">电大</text>
+<text x="162" y="276" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="187" cy="229" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="187" y="256" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">机械厂足球场</text>
+<text x="187" y="233" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="147" cy="194" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="147" y="221" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">机械厂门口</text>
+<text x="147" y="198" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="194" cy="68" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="194" y="95" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">下山小路</text>
+<text x="194" y="72" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="120" cy="65" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="120" y="92" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">兵工厂</text>
+<text x="120" y="69" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="587" cy="587" r="12" fill="#d0021b" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="587" y="614" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">厂区</text>
+<text x="587" y="591" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L3</text>
+<circle cx="650" cy="736" r="18" fill="#f5a623" stroke="#333" stroke-width="2" opacity="1.0"/>
+<text x="650" y="769" font-family="sans-serif" font-size="12" fill="#333" text-anchor="middle">嘉陵江边</text>
+<text x="650" y="740" font-family="sans-serif" font-size="9" fill="white" text-anchor="middle">L2</text>
+<text x="20" y="780" font-family="sans-serif" font-size="12" fill="#999">迷雾区域：造纸二村、民主新村、单身宿舍、子弟中学、技校、化工厂、公共澡堂、李家坡各地点</text>
+<text x="850" y="60" font-family="sans-serif" font-size="12" font-weight="bold" fill="#333">图例</text>
+<circle cx="860" cy="81" r="6" fill="#4a90e2"/>
+<text x="875" y="85" font-family="sans-serif" font-size="11" fill="#333">世界</text>
+<circle cx="860" cy="101" r="6" fill="#50c878"/>
+<text x="875" y="105" font-family="sans-serif" font-size="11" fill="#333">区域</text>
+<circle cx="860" cy="121" r="6" fill="#f5a623"/>
+<text x="875" y="125" font-family="sans-serif" font-size="11" fill="#333">城市</text>
+<circle cx="860" cy="141" r="6" fill="#d0021b"/>
+<text x="875" y="145" font-family="sans-serif" font-size="11" fill="#333">场景</text>
+<circle cx="860" cy="161" r="6" fill="#9013fe"/>
+<text x="875" y="165" font-family="sans-serif" font-size="11" fill="#333">细节</text>
+<circle cx="860" cy="181" r="6" fill="#cccccc"/>
+<text x="875" y="185" font-family="sans-serif" font-size="11" fill="#333">迷雾</text>
+</svg>

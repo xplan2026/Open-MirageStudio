@@ -1,0 +1,37 @@
+{
+  "name": "二虎",
+  "version": "1.0",
+  "created_at": "2026-07-14",
+  "voice_characteristics": {
+    "description": "类似Eagles主唱的声音，沙哑、随性、不羁，鼻音较重",
+    "reference_artist": "Eagles (Don Henley)",
+    "timbre": "沙哑",
+    "style": "随性、不羁",
+    "nasality": "较重",
+    "vocal_range": "男中音",
+    "vocal_technique": "自然随性、略带慵懒的唱腔"
+  },
+  "music_style": {
+    "primary_genre": "乡村音乐",
+    "description": "以乡村音乐为核心，配乐中常含苏格兰风笛、非洲手鼓等民族乐器",
+    "typical_instruments": ["acoustic guitar", "苏格兰风笛 (Scottish bagpipes)", "非洲手鼓 (African djembe)", "口琴 (harmonica)", "班卓琴 (banjo)", "小提琴 (fiddle)"],
+    "typical_bpm_range": "80-110",
+    "typical_key": "G major / E minor",
+    "mood_keywords": ["旅行", "在路上", "随性", "狂野", "自由", "不羁"]
+  },
+  "artistic_identity": {
+    "theme": "旅行，在路上的随性加狂野",
+    "persona": "永远在路上的旅人，用歌声记录沿途的风景与故事",
+    "lyric_themes": ["公路旅行", "远方", "自由", "流浪", "自然风光", "人生感悟"],
+    "image": "高大俊朗型"
+  },
+  "audio_samples": {
+    "status": "暂缺",
+    "notes": "后续补充声音采样文件，用于参考音色特征"
+  },
+  "usage_in_prompt": {
+    "vocal_style_injection": "沙哑随性的男声，类似Eagles主唱的音色，鼻音较重，唱腔自然不羁",
+    "style_injection": "乡村音乐风格，配以苏格兰风笛和非洲手鼓等民族乐器，营造旅途中随性狂野的氛围",
+    "mood_injection": "自由、在路上、随性而狂野的旅行者心境"
+  }
+}

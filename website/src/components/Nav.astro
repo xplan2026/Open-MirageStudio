@@ -1,0 +1,43 @@
+---
+export interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const links = [
+  { href: '/novel', label: '小说' },
+  { href: '/music', label: '音乐' },
+  { href: '/mv', label: 'MV' },
+  { href: '/family', label: '族谱' },
+  { href: '/blog', label: '博客' },
+  { href: '/community', label: '社区' },
+];
+---
+
+<nav class="sticky top-0 z-50 bg-paper/90 backdrop-blur border-b border-paper-dark">
+  <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="text-xl font-bold text-ink hover:text-accent transition-colors">
+      幻觉
+    </a>
+    <div class="flex gap-1">
+      {
+        links.map(link => {
+          const isActive = currentPath.startsWith(link.href);
+          return (
+            <a
+              href={link.href}
+              class={`px-3 py-2 rounded text-sm font-medium transition-colors ${
+                isActive
+                  ? 'bg-ink text-paper'
+                  : 'text-muted hover:text-ink hover:bg-paper-dark/50'
+              }`}
+            >
+              {link.label}
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,133 @@
+# ============================================================
+# 大副 (First Mate) — WebIDE 自定义开发环境配置
+# ============================================================
+#
+# 项目定位: 多 Agent 设计、开发与维护平台
+#
+# 当前 Agent:
+#   - Captain (船长): 部署于阿里云服务器，通过 SSH 运维
+#   - Lemong Agent: AI 音乐创作 (DeepSeek + ACE API)
+#   - Erhu Agent (二虎): AI 数字人 MV 制作 (图片生成 + FFmpeg 合成)
+#
+# 核心依赖:
+#   - Node.js 22.x
+#   - FFmpeg (render.js 视频合成)
+#   - SSH 客户端 (连接船长服务器)
+#   - jq (JSON 处理)
+#   - Python 3.x (地图生成脚本 generate_map.py / map_editor_server.py)
+#
+# 所有脚本均为纯 Node.js，无 npm 依赖（使用内置模块 + 外部 CLI）
+# ============================================================
+
+$:
+  vscode:
+    - docker:
+        image: cnbcool/default-dev-env:latest
+      services:
+        - vscode
+        - docker
+      stages:
+        # ---- 阶段 1: 更新系统包索引 ----
+        - name: 更新系统包索引
+          script: |
+            set -e
+            echo ">>> 更新 apt 包索引 ..."
+            apt-get update -qq
+
+        # ---- 阶段 2: 安装 Node.js 22.x ----
+        - name: 安装 Node.js 22.x
+          script: |
+            set -e
+            if command -v node &>/dev/null && node --version | grep -q "^v22"; then
+              echo ">>> Node.js 22.x 已内置: $(node --version)"
+            else
+              echo ">>> 安装 Node.js 22.x ..."
+              curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+              apt-get install -y nodejs
+              echo ">>> Node.js: $(node --version)"
+            fi
+            echo ">>> npm: $(npm --version)"
+
+        # ---- 阶段 3: 安装 Python 3（地图生成脚本） ----
+        - name: 安装 Python 3
+          script: |
+            set -e
+            echo ">>> 安装 Python 3 (generate_map.py / map_editor_server.py 地图脚本) ..."
+            if command -v python3 &>/dev/null; then
+              echo "    Python 3 已安装: $(python3 --version)"
+            else
+              apt-get install -y --no-install-recommends python3
+              echo "    Python 3: $(python3 --version)"
+            fi
+
+        # ---- 阶段 4: 安装 FFmpeg + SSH + 运维工具 ----
+        - name: 安装 FFmpeg、SSH 与运维工具
+          script: |
+            set -e
+            echo ">>> 安装 FFmpeg (render.js 视频合成必需) ..."
+            if command -v ffmpeg &>/dev/null; then
+              echo "    FFmpeg 已安装: $(ffmpeg -version 2>&1 | head -1)"
+            else
+              apt-get install -y --no-install-recommends ffmpeg
+            fi
+
+            echo ">>> 安装 openssh-client (连接船长服务器) ..."
+            apt-get install -y --no-install-recommends openssh-client
+
+            echo ">>> 安装 jq (JSON 处理) ..."
+            apt-get install -y --no-install-recommends jq
+
+            echo ">>> 验证工具版本:"
+            echo "    ffmpeg: $(ffmpeg -version 2>&1 | head -1)"
+            echo "    ffprobe: $(ffprobe -version 2>&1 | head -1)"
+            echo "    ssh: $(ssh -V 2>&1)"
+            echo "    jq: $(jq --version)"
+
+        # ---- 阶段 5: 初始化 .env 环境变量与 SSH 密钥 ----
+        # .env 由用户提交到仓库（敏感信息在 gitignore 中），
+        # 若不存在则等待用户手动放入。
+        - name: 初始化 .env 与 SSH 密钥
+          script: |
+            set -e
+            echo "=============================================="
+            echo "  初始化开发环境..."
+            echo "=============================================="
+
+            MAX_WAIT=60
+            WAITED=0
+
+            while [ ! -f /workspace/.env ]; do
+              if [ $WAITED -ge $MAX_WAIT ]; then
+                echo ""
+                echo "!!! 超时: .env 未找到，SSH 密钥初始化跳过"
+                echo "!!! 就位后手动运行:"
+                echo "!!!   grep -A 30 'BEGIN RSA PRIVATE KEY' /workspace/.env > /workspace/cnb-openclaw.pem"
+                echo "!!!   chmod 600 /workspace/cnb-openclaw.pem"
+                exit 0
+              fi
+              printf "\r  [%02d/%02d] 等待 .env 文件... " $WAITED $MAX_WAIT
+              sleep 5
+              WAITED=$((WAITED + 1))
+            done
+
+            echo ""
+            echo ">>> .env 已检测到！提取 SSH 私钥 ..."
+            grep -A 30 "BEGIN RSA PRIVATE KEY" /workspace/.env > /workspace/cnb-openclaw.pem
+            chmod 600 /workspace/cnb-openclaw.pem
+
+            # 验证 SSH 连接
+            echo ">>> 测试 SSH 连接 ..."
+            if ssh -i /workspace/cnb-openclaw.pem -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 root@[服务器IP] "echo OK" 2>/dev/null; then
+              echo ">>> SSH 连接成功！"
+            else
+              echo ">>> SSH 连接失败（可能是网络问题），可稍后重试"
+            fi
+
+            echo ""
+            echo "=============================================="
+            echo "  环境初始化完成！"
+            echo "  - Node.js: $(node --version)"
+            echo "  - Python:  $(python3 --version)"
+            echo "  - FFmpeg: $(ffmpeg -version 2>&1 | head -1 | cut -d' ' -f3)"
+            echo "  - SSH: 已配置"
+            echo "=============================================="

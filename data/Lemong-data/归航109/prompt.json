@@ -1,0 +1,30 @@
+{
+  "title": "归航109",
+  "created_at": "2026-07-14T16:13:20.668Z",
+  "version": 1,
+  "music_prompt": {
+    "caption_en": "A pop-rock ballad with a warm, weathered male vocal reminiscent of the Eagles' lead singer. The arrangement starts with a solo classical guitar arpeggio in a minor key, evoking nostalgia and the sea. As the chorus hits, the key shifts to major, drums and bass enter with a steady 4/4 beat, and the guitar becomes more strummed and driving. A Scottish bagpipe melody weaves through the bridge, adding a touch of wanderlust and pride. African djembe provides a subtle, earthy rhythm beneath the chorus. The outro returns to solo classical guitar in minor, fading with a sense of quiet pride. No electronic elements; all acoustic instruments. The vocal delivery is gritty, nasal, and unpolished, like a sailor telling his story over a campfire.",
+    "bpm": 90,
+    "key_scale": "Em (verse) -> G (chorus) -> Em (outro)",
+    "chord_progression": "Verse: Em - C - G - D | Chorus: G - D - Em - C | Bridge: Am - C - D - G (with bagpipes)",
+    "instruments": [
+      "classical guitar (fingerpicked, then strummed)",
+      "acoustic bass",
+      "drum kit (brushes on snare, kick on 1 & 3)",
+      "Scottish bagpipes (bridge only)",
+      "African djembe (chorus, low pulse)",
+      "harmonica (fills between lines)",
+      "fiddle (countermelody in chorus)"
+    ],
+    "mood": "nostalgic, proud, warm, gritty, reflective, uplifting",
+    "vocal_language": "zh",
+    "vocal_style": "Warm, gritty, nasal male vocal with a natural, unpolished delivery. Slight vibrato on held notes. Phrasing is loose and conversational, like a storyteller. Inspired by Don Henley's tone but with more nasal resonance and a touch of rasp. The singer should sound like a seasoned sailor, not a polished pop star.",
+    "duration": 240,
+    "time_signature": "4/4",
+    "audio_format": "mp3",
+    "thinking": true,
+    "special_notes": "Vocal style adapted from '二虎' reference: Eagles-like warm, gritty, nasal male voice. Scottish bagpipes and African djembe added per '二虎' preferences, but used sparingly to maintain pop-rock foundation. No electronic elements. Key modulation from Em to G for chorus to evoke pride, then back to Em for outro."
+  },
+  "lyrics": "[A段]\n海风又把军港的晨雾吹散\n我站在栈桥边 看浪花拍打石岸\n三十年了 铁锚早已锈迹斑斑\n可那声汽笛 还在梦里回旋\n\n[A段]\n记得那年列装 青岛港的冬天\n我们笑着把青春 焊进钢铁的船舷\n驱逐舰109 像头沉默的鲸\n载着二十岁的我 驶向深海的天\n\n[B段]\n如今我站在这里 看新舰如山\n雷达划破长空 导弹指向云端\n不再是当年那支 只有木船的舰队\n每一片浪花里 都藏着钢铁的誓言\n\n[C段/高潮]\n哦 109 你老了 我也老了\n但海军的魂 在浪尖上燃烧\n从近岸到深蓝 从木船到巨舰\n这三十年 我们终于站成 世界的惊叹号\n\n[B段]\n夕阳把影子拉长 像当年的航线\n老战友的名字 还在舷号上发烫\n我摸一摸胸前的勋章 挺直腰板\n这里的每一寸海 都刻着我们的肝胆\n\n[C段/高潮]\n哦 109 你老了 我也老了\n但海军的魂 在浪尖上燃烧\n从近岸到深蓝 从木船到巨舰\n这三十年 我们终于站成 世界的惊叹号\n\n[尾声]\n海风还在吹 汽笛又响了\n我转身���去 像���年启航\n109 你守着港 我守着家\n这骄傲 比铁锚更沉 比海更深长",
+  "output_file": "归航109_2026-07-14T16-13-20.mp3"
+}

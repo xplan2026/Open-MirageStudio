@@ -1,0 +1,74 @@
+# ============================================================
+# ===  不应提交到版本控制的文件                               ===
+# ============================================================
+
+# --- 环境变量与敏感凭据 ---
+.env
+.env.*
+!.env.example
+
+# --- SSH 私钥 ---
+*.pem
+*.key
+
+# --- 依赖与构建产物 ---
+node_modules/
+dist/
+build/
+
+# --- IDE / 编辑器 ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- 操作系统 ---
+.DS_Store
+Thumbs.db
+
+# --- 备份与临时文件 ---
+docs/backup/
+
+# --- 调度运行时任务（Xujie 人控任务落盘，验证测试残留，不入库） ---
+data/XujieWriter-data/tasks/
+
+# --- 微信 iLink 通道运行时凭据（含 bot_token，不入库） ---
+coordinator-agent/data/
+
+# --- AI-Music 产出物（全量提交，不排除） ---
+# data/AI-Music/ 下的 MP3 和 JSON 产出物全部纳入版本控制
+# data/music-prompt/ 下的 prompt 存档全部纳入版本控制
+
+# --- 日志 ---
+*.log
+logs/
+!docs/logs/
+
+# --- SSH 密钥目录 ---
+.codebuddy/ssh_keys/
+
+# --- CodeBuddy（IDE 配置，随仓库提交） ---
+# .codebuddy/ 已允许提交
+.codebuddy/models.json
+.codebuddy/skills/*/config.env
+
+# --- CNB 平台配置（IDE 环境配置，随仓库提交） ---
+# .cnb.yml 已允许提交
+
+# --- Captain 服务器完整副本（不在 GitHub 仓库提交） ---
+captain/
+
+# --- 服务器运行时扩展 ---
+captain/.openclaw/extensions/
+
+# --- 其他 ---
+*.lock
+!website/package-lock.json
+.wrangler/
+
+# --- 构建数据临时目录（D1 重建产物，不入库） ---
+website/.data-build/
+
+# --- Erhu 音轨分离中间产物（vocals/other wav，本地可重新生成，不入库） ---
+**/.stem/

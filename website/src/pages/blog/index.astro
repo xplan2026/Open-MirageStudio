@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getBlogPosts } from '../../lib/data';
+
+const posts = getBlogPosts();
+const pageTitle = '博客';
+---
+
+<Layout title={pageTitle} currentPath="/blog">
+  <main class="max-w-3xl mx-auto px-6 py-12">
+    <header class="mb-12">
+      <h1 class="text-3xl font-bold text-ink mb-3">博客</h1>
+      <p class="text-muted leading-relaxed">
+        记录 Mirage-Studio 项目开发与维护中的创新实践、技术方案与架构思考。
+      </p>
+    </header>
+
+    {
+      posts.length === 0 ? (
+        <p class="text-muted text-center py-20">暂无文章</p>
+      ) : (
+        <div class="space-y-10">
+          {posts.map(post => (
+            <article class="border-b border-paper-dark pb-10 last:border-b-0">
+              <a
+                href={`/blog/${post.slug}`}
+                class="group block no-underline"
+              >
+                <h2 class="text-xl font-bold text-ink group-hover:text-accent transition-colors mb-2">
+                  {post.title}
+                </h2>
+              </a>
+              <div class="flex items-center gap-3 text-sm text-muted mb-3">
+                <time datetime={post.date}>{post.date}</time>
+                {post.tags.length > 0 && (
+                  <div class="flex gap-2">
+                    {post.tags.map(tag => (
+                      <span class="text-xs px-2 py-0.5 bg-paper-dark rounded-full text-muted">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {post.summary && (
+                <p class="text-muted leading-relaxed text-sm">{post.summary}</p>
+              )}
+              <a
+                href={`/blog/${post.slug}`}
+                class="inline-block mt-3 text-sm text-accent hover:underline"
+              >
+                阅读全文 →
+              </a>
+            </article>
+          ))}
+        </div>
+      )
+    }
+  </main>
+</Layout>

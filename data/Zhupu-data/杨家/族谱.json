@@ -1,0 +1,462 @@
+{
+  "family_name": "杨家",
+  "created_at": "2026-08-06T00:00:00.000Z",
+  "updated_at": "2026-08-06T00:00:00.000Z",
+  "description": "米丰母亲（杨三/杨常玉）的家族——杨家。杨一为江北农场员工升至场长，退休务农。二代六子女（杨二至杨七），各有发展：从华西医生到企业工人，从务农经商到西政律师。三代更是人才辈出：医药精英杨柯（北京）、桥梁工程师张浪（成都）、直播创业杨洋、律师张燕。四代已见学霸。",
+  "culture": {
+    "motto": "",
+    "emblem": "",
+    "origin": "杨家祖籍不详。杨一（米丰外公）为江北农场员工→场长→退休回家务农，擅长竹编。配偶李二（外婆）来自李家（李刘氏次女）。二代六子女：杨二（华西医生）、杨三（务农/工人，米丰母）、杨四（务农，当兵）、杨五（工人）、杨六（务农/经商）、杨七（工人）。",
+    "notes": "此族谱以米丰视角标注称谓。杨三为本族谱核心连接人物——她是米丰的母亲（参见米家族谱 member_005 杨常玉）。杨二与杨三因家务矛盾关系不洽；杨二后期对其他弟妹多有照顾。杨五与杨六因顶替工作机会产生矛盾。"
+  },
+  "generation_names": {
+    "1": "一世（杨一）",
+    "2": "二世",
+    "3": "三世",
+    "4": "四世"
+  },
+  "members": {
+    "member_001": {
+      "id": "member_001",
+      "name": "杨一",
+      "style_name": "",
+      "generation": 1,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1916",
+      "death": "1988",
+      "father": "",
+      "mother": "",
+      "spouse": ["member_002"],
+      "children": ["member_003", "member_004", "member_005", "member_006", "member_007", "member_008"],
+      "achievements": [
+        {
+          "type": "工作",
+          "title": "江北农场场长",
+          "year": "",
+          "detail": "从农场员工升至场长，退休后回家务农。擅长竹编。"
+        }
+      ],
+      "notes": "米丰外公。配偶为李二（米丰外婆）。江北农场员工→场长→退休回家务农。擅长竹编。1988年去世。"
+    },
+    "member_002": {
+      "id": "member_002",
+      "name": "李二",
+      "style_name": "",
+      "generation": 1,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": ["member_001"],
+      "children": ["member_003", "member_004", "member_005", "member_006", "member_007", "member_008"],
+      "achievements": [],
+      "notes": "米丰外婆（亲外婆）。李刘氏次女（参见李家族谱 member_003）。杨一之妻。"
+    },
+    "member_003": {
+      "id": "member_003",
+      "name": "杨二",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "1944",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_002",
+      "spouse": ["member_019"],
+      "children": ["member_009", "member_010", "member_011"],
+      "achievements": [
+        {
+          "type": "医疗",
+          "title": "华西医科大附属医院医生",
+          "year": "",
+          "detail": "华西医科大附属医院医生。90年代中期与配偶共同研发医疗器材，卖出专利获200万。后买150亩土地种绿化树（以桂花为主）。"
+        }
+      ],
+      "notes": "米丰大姨。配偶陈，同为华西医院医生。小时喜欢读书，耽误农活与带弟妹，事都推给了杨三（米丰母），双方关系不洽。后期对其他弟妹多有照顾。"
+    },
+    "member_004": {
+      "id": "member_004",
+      "name": "杨三",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "1947-10",
+      "death": "2022-04",
+      "father": "member_001",
+      "mother": "member_002",
+      "spouse": ["member_018"],
+      "children": ["member_012", "member_013"],
+      "achievements": [],
+      "notes": "米丰母亲。参见米家族谱 member_005 杨常玉。前期务农，卖菜为主要收入。后期因米丰父亲（米南生）行政职级达到处级，户口转入城市，在江城纸厂大集体工作。2022年4月去世——早上去买菜回家时上台阶左腿力不足向后仰倒，严重摔伤脑部不治。勤劳善良正直，绝不亏欠别人。口头禅：'××说的，还能有假？'"
+    },
+    "member_005": {
+      "id": "member_005",
+      "name": "杨四",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1950",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_002",
+      "spouse": ["member_020"],
+      "children": ["member_014"],
+      "achievements": [],
+      "notes": "米丰大舅。曾当兵退役，回家务农。重亲情，常有经济上对杨家其他兄弟姐妹的支持。"
+    },
+    "member_006": {
+      "id": "member_006",
+      "name": "杨五",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "1952",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_002",
+      "spouse": ["member_021"],
+      "children": ["member_015"],
+      "achievements": [],
+      "notes": "米丰三姨。顶替杨一获得工人身份。由于这个顶替机会，与杨六产生矛盾，持续了很长时间。喜欢喝酒。"
+    },
+    "member_007": {
+      "id": "member_007",
+      "name": "杨六",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1956",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_002",
+      "spouse": ["member_022"],
+      "children": ["member_016"],
+      "achievements": [],
+      "notes": "米丰二舅。年轻时务农，喜欢打麻将。头脑活，承包鱼塘、开麻将馆、开台球房，交游广阔。因杨五顶替了杨一的工人机会而产生矛盾。"
+    },
+    "member_008": {
+      "id": "member_008",
+      "name": "杨七",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "1960",
+      "death": "",
+      "father": "member_001",
+      "mother": "member_002",
+      "spouse": ["member_023"],
+      "children": ["member_017"],
+      "achievements": [],
+      "notes": "米丰小姨。高中时在成都上学，由杨二照料。后进入长安厂的配套企业，工人直至退休。"
+    },
+    "member_009": {
+      "id": "member_009",
+      "name": "杨二长子",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1972",
+      "death": "",
+      "father": "member_019",
+      "mother": "member_003",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米丰表哥。四川地质学院毕业。米丰上小学前见过一次。"
+    },
+    "member_010": {
+      "id": "member_010",
+      "name": "杨二次子",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1976",
+      "death": "",
+      "father": "member_019",
+      "mother": "member_003",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米丰表弟。与妹杨二长女为双胞胎。无其他信息。"
+    },
+    "member_011": {
+      "id": "member_011",
+      "name": "杨二长女",
+      "style_name": "",
+      "generation": 3,
+      "gender": "女",
+      "avatar": "",
+      "birth": "1976",
+      "death": "",
+      "father": "member_019",
+      "mother": "member_003",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "米丰表妹。与兄杨二次子为双胞胎。嫁给同学（农村人），为父所不喜。"
+    },
+    "member_012": {
+      "id": "member_012",
+      "name": "米丰",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1973-02",
+      "death": "",
+      "father": "member_018",
+      "mother": "member_004",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "杨三（杨常玉）之长子。详见米家族谱 member_016。"
+    },
+    "member_013": {
+      "id": "member_013",
+      "name": "米旺",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1975-05",
+      "death": "",
+      "father": "member_018",
+      "mother": "member_004",
+      "spouse": [],
+      "children": [],
+      "achievements": [],
+      "notes": "杨三（杨常玉）之次子。详见米家族谱 member_018。"
+    },
+    "member_014": {
+      "id": "member_014",
+      "name": "杨柯",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_005",
+      "mother": "member_020",
+      "spouse": [],
+      "children": [],
+      "achievements": [
+        {
+          "type": "教育",
+          "title": "华西医科大毕业",
+          "year": "",
+          "detail": ""
+        },
+        {
+          "type": "创业",
+          "title": "医药行业精英",
+          "year": "",
+          "detail": "在医药行业深耕多年，成为行业精英，获得公司原始股权。"
+        }
+      ],
+      "notes": "杨四与赵丽敏之子。华西医科大毕业，医药行业精英，获公司原始股权。结婚后安家在北京，生一女一儿。"
+    },
+    "member_015": {
+      "id": "member_015",
+      "name": "张浪",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_021",
+      "mother": "member_006",
+      "spouse": [],
+      "children": [],
+      "achievements": [
+        {
+          "type": "职业",
+          "title": "桥梁工程师",
+          "year": "",
+          "detail": "长期驻外。结婚后安家在成都。生一子，是学霸，老师撵着跳级的存在。"
+        }
+      ],
+      "notes": "杨五与张元伟之子。"
+    },
+    "member_016": {
+      "id": "member_016",
+      "name": "杨洋",
+      "style_name": "",
+      "generation": 3,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_007",
+      "mother": "member_022",
+      "spouse": [],
+      "children": [],
+      "achievements": [
+        {
+          "type": "创业",
+          "title": "直播MCN/租车公司",
+          "year": "",
+          "detail": "初中毕业踏入社会→娱乐服务行业→给区级部门领导开车(25-35岁)→40岁后开直播MCN积累财富→疫情期间亏损一半→后开租车公司（网约车出租车辆）再次富裕。"
+        }
+      ],
+      "notes": "杨六与孙芸枝之子。初中毕业踏入社会。喜欢钓鱼，长相帅气，说话圆滑。生一对双胞胎女儿。"
+    },
+    "member_017": {
+      "id": "member_017",
+      "name": "张燕",
+      "style_name": "",
+      "generation": 3,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "member_023",
+      "mother": "member_008",
+      "spouse": [],
+      "children": [],
+      "achievements": [
+        {
+          "type": "教育",
+          "title": "西南政法毕业",
+          "year": "",
+          "detail": ""
+        },
+        {
+          "type": "职业",
+          "title": "律师",
+          "year": "",
+          "detail": ""
+        }
+      ],
+      "notes": "杨七与张成杰之女。西南政法大学毕业，律师。"
+    },
+    "member_018": {
+      "id": "member_018",
+      "name": "米南生",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "1943-05",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": ["member_004"],
+      "children": ["member_012", "member_013"],
+      "achievements": [
+        {
+          "type": "军功",
+          "title": "八年云南军旅",
+          "year": "1961-1969",
+          "detail": "在云南服役八年"
+        },
+        {
+          "type": "官职",
+          "title": "储运处处长",
+          "year": "",
+          "detail": "担任国企储运处处长至退休"
+        }
+      ],
+      "notes": "杨三（杨常玉）之夫，米丰之父。详见米家族谱 member_004。"
+    },
+    "member_019": {
+      "id": "member_019",
+      "name": "陈",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": ["member_003"],
+      "children": ["member_009", "member_010", "member_011"],
+      "achievements": [
+        {
+          "type": "医疗",
+          "title": "华西医院医生",
+          "year": "",
+          "detail": "与妻杨二同为华西医院医生。90年代中期共同研发医疗器材，卖出专利获200万。"
+        }
+      ],
+      "notes": "杨二之夫。"
+    },
+    "member_020": {
+      "id": "member_020",
+      "name": "赵丽敏",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": ["member_005"],
+      "children": ["member_014"],
+      "achievements": [],
+      "notes": "杨四之妻。"
+    },
+    "member_021": {
+      "id": "member_021",
+      "name": "张元伟",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": ["member_006"],
+      "children": ["member_015"],
+      "achievements": [],
+      "notes": "杨五之夫。化工厂木工。"
+    },
+    "member_022": {
+      "id": "member_022",
+      "name": "孙芸枝",
+      "style_name": "",
+      "generation": 2,
+      "gender": "女",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": ["member_007"],
+      "children": ["member_016"],
+      "achievements": [],
+      "notes": "杨六之妻。"
+    },
+    "member_023": {
+      "id": "member_023",
+      "name": "张成杰",
+      "style_name": "",
+      "generation": 2,
+      "gender": "男",
+      "avatar": "",
+      "birth": "",
+      "death": "",
+      "father": "",
+      "mother": "",
+      "spouse": ["member_008"],
+      "children": ["member_017"],
+      "achievements": [],
+      "notes": "杨七之夫。同厂工人。"
+    }
+  }
+}

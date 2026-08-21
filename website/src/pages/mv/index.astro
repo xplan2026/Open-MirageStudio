@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getErhuProjects } from '../../lib/data';
+
+const projects = getErhuProjects();
+---
+
+<Layout title="MV · 幻觉">
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-2">二虎 MV 作品</h1>
+    <p class="text-muted mb-10">AI 数字人歌手「二虎」的音乐影像作品</p>
+
+    {
+      projects.length === 0 && (
+        <p class="text-muted italic">暂无 MV 作品，敬请期待。</p>
+      )
+    }
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {projects.map(proj => (
+        <a
+          href={`/mv/${proj.id}`}
+          class="group block border border-paper-dark rounded-lg overflow-hidden hover:border-accent/40 hover:shadow-sm transition-all"
+        >
+          <div class="aspect-video bg-paper-dark flex items-center justify-center">
+            {
+              proj.hasImages ? (
+                <span class="text-4xl">🎬</span>
+              ) : (
+                <span class="text-4xl">🎵</span>
+              )
+            }
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold group-hover:text-accent transition-colors">{proj.title}</h3>
+            <div class="flex gap-4 mt-1 text-xs text-muted">
+              {proj.imageCount > 0 && <span>{proj.imageCount} 张画面</span>}
+              {proj.mp4File && <span class="text-accent">有 MV</span>}
+              {proj.mp3File && !proj.mp4File && <span>仅音频</span>}
+              <span>{proj.status}</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
